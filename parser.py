@@ -22,9 +22,9 @@ from typing import List
 # https://github.com/aaronhktan/jyut-dict/blob/main/src/dictionaries/cedict/generate-readings.py
 
 # Input: CC-Canto file
-# Output: CC-Canto file converted into a list of dicts, containing the fields as listed below
-def parse_cc_canto(file) -> List[dict]:
-    entries = []
+# Output: A (k,v) map of v = dicts containing all the information in an entry, k = the traditional character
+def parse_cc_canto(file):
+    entries = {}
     with open(file, "r", encoding="utf8") as f:
 
         for line in f:
@@ -38,8 +38,7 @@ def parse_cc_canto(file) -> List[dict]:
             jyutping = line[line.index("{") + 1 : line.index("}")].lower()
             definitions = line[line.index("/") + 1 : line.rindex("/")].split("/")
             entry = {"traditional": traditional, "simplified": simplified, "pinyin": pinyin, "jyutping": jyutping, "definitions": definitions}
-            # Should probably change to some sort of kv pair with the traditional as the key
-            entries.append(entry)
+            entries[traditional] = entry
 
     return entries
 
