@@ -1,4 +1,10 @@
 from anki.collection import Collection, SearchNode, SearchJoiner
+
+
+# Windows Path
+# TODO: Add Windows path here
+
+# WSL Path
 # Remember that you're in WSL and the path to the Collection needs to be via mnt!!
 col = Collection("/mnt/c/users/leste/AppData/Roaming/Anki2/User 1/collection.anki2")
 # cardIds = col.find_cards(col.build_search_string("deck:Chinese Vocab Mining"))
@@ -16,7 +22,7 @@ for id in rthz1IDs:
     if not note["Jyutping"]:
         # Need to find a way to access a dictionary, PyCantonese is interesting but I don't think it provides what I need
         # CC-Canto probably has some sort of Python library out there
-        print()
+        print(note["Traditional Hanzi"] + " Keyword: " + note["Keyword"])
 
 # if col.get_note(1721504136876)["Jyutping"]:
 #     print(col.get_note(1721504136876)["Jyutping"])
