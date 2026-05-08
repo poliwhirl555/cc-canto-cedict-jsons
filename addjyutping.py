@@ -22,6 +22,8 @@ for id in rthz1IDs:
     if not note["Jyutping"]:
         # Need to find a way to access a dictionary, PyCantonese is interesting but I don't think it provides what I need
         # CC-Canto probably has some sort of Python library out there
+
+        # Line below for testing purposes
         print(note["Traditional Hanzi"] + " Keyword: " + note["Keyword"])
 
 # if col.get_note(1721504136876)["Jyutping"]:

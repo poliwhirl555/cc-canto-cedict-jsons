@@ -16,12 +16,17 @@
 # I don't have to deal with this every time I want to access the data programmatically 
 
 import sqlite3
+from typing import List
 
-# Parsing code sourced from: Jyut Dictionary
+# Parsing code based on code in Jyut Dictionary
 # https://github.com/aaronhktan/jyut-dict/blob/main/src/dictionaries/cedict/generate-readings.py
 
-def parse_cc_canto(file):
- with open(file, "r", encoding="utf8") as f:
+# Input: CC-Canto file
+# Output: CC-Canto file converted into a list of dicts, containing the fields as listed below
+def parse_cc_canto(file) -> List[dict]:
+    entries = []
+    with open(file, "r", encoding="utf8") as f:
+
         for line in f:
             if len(line) == 0 or line[0] == "#":
                 continue
@@ -31,9 +36,16 @@ def parse_cc_canto(file):
             simplified = split[1]
             pinyin = line[line.index("[") + 1 : line.index("]")].lower().replace("v", "u:")
             jyutping = line[line.index("{") + 1 : line.index("}")].lower()
-            
-            # Need custom parsing for entries, since I do actually want to store that information
+            definitions = line[line.index("/") + 1 : line.rindex("/")].split("/")
+            entry = {"traditional": traditional, "simplified": simplified, "pinyin": pinyin, "jyutping": jyutping, "definitions": definitions}
+            # Should probably change to some sort of kv pair with the traditional as the key
+            entries.append(entry)
 
-            # Split by "\", find last "\"?
-            # defintion = line[line.index("\")]
+    return entries
+
+            
+
+
+
+            
 
