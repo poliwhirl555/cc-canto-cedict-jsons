@@ -38,6 +38,12 @@ def parse_cc_canto(file):
             jyutping = line[line.index("{") + 1 : line.index("}")].lower()
             definitions = line[line.index("/") + 1 : line.rindex("/")].split("/")
             entry = {"traditional": traditional, "simplified": simplified, "pinyin": pinyin, "jyutping": jyutping, "definitions": definitions}
+            # Might need to add code to remove surnames, not sure how this handles characters with multiple pronounciations and definitions
+            # Example would be 重. Has 4 different entries, and the key has to be unique
+            # Trick might be to check first if the key exists, 
+            # if it does, check if it's a list, 
+            # if it is not, then create a list with the current entry, and append the new entry to it
+            # Should still probably skip surnames though
             entries[traditional] = entry
 
     return entries
