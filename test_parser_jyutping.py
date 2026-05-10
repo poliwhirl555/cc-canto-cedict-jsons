@@ -12,6 +12,7 @@ def test_single_def_parse():
                                                              "definitions": ["carp"]}
                                                             }
 
+# Single line, multiple defintions/
 def test_multi_def_parse():
     expected = {"式": {"traditional": "式",  "simplified": "式", "pinyin": "shi4", "jyutping": "sik1", 
                     "definitions": ["type", "form", "pattern", "style", "formula", "standards", "ceremony", "ritual", "mode", "tense"]}}

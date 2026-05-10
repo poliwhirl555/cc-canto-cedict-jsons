@@ -21,13 +21,23 @@ from typing import List
 # Parsing code based on code in Jyut Dictionary
 # https://github.com/aaronhktan/jyut-dict/blob/main/src/dictionaries/cedict/generate-readings.py
 
-# Input: CC-Canto file
-# Output: A (k,v) map of v = dicts containing all the information in an entry, k = the traditional character
-def parse_cc_canto(file):
-    entries = {}
-    with open(file, "r", encoding="utf8") as f:
+# Input: CC-Canto file, a key to use for the dictionary, one of "traditional", "simplified", "pinyin", "jyutping" or None
+# Output: A (k,v) map of v = dicts containing all the information in an entry, k = the inputed key 
+#           OR a list of all entries if inputted key is none
+def parse_cc_canto(file, key = "traditional"):
+    # Check if the entered key is valid
+    if key not in ["traditional", "simplified", "pinyin", "jyutping", None]:
+            raise ValueError("Invalid key. Property does not exist in CC-Canto entry.")
+    
+    if key == None:
+        entries = []
+    else:
+        entries = {}
 
+    with open(file, "r", encoding="utf8") as f:
         for line in f:
+            # Might be good to move everything below into it's own get_entry function, but that might impact readability and be unnecessary
+            # Depends on when and if I do the SQLite version
             if len(line) == 0 or line[0] == "#":
                 continue
 
@@ -45,14 +55,18 @@ def parse_cc_canto(file):
 
             entry = {"traditional": traditional, "simplified": simplified, "pinyin": pinyin, "jyutping": jyutping, "definitions": definitions}
             
-            # Block to handle hanzi with multiple pronounciations and entries, like 重, which has 4 entries.
+            # Block to handle hanzi with multiple pronounciations and entries, like 重, which has 4 entries, 
+            # or if sorting by non-default keys, anything that ends up with the same key
             # Converts into bucket if something hashes into the same key, else add normally
-            if not entries.get(traditional):
-                entries[traditional] = entry
-            elif type(entries[traditional]) is list:
-                entries[traditional].append(entry)
+            # If there is no key, just add to the list
+            if key == None:
+                entries.append(entry)
+            elif not entries.get(key):
+                entries[entry[key]] = entry
+            elif type(entries[key]) is list:
+                entries[entry[key]].append(entry)
             else:
-                entries[traditional] = [entries[traditional], entry]
+                entries[entry[key]] = [entries[entry[key]], entry]
 
     return entries
 
