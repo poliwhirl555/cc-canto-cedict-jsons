@@ -23,7 +23,7 @@ from typing import List
 
 # Input: CC-Canto file
 # Output: A (k,v) map of v = dicts containing all the information in an entry, k = the traditional character
-def parse_cc_canto(file, surnames = True):
+def parse_cc_canto(file):
     entries = {}
     with open(file, "r", encoding="utf8") as f:
 
@@ -43,16 +43,8 @@ def parse_cc_canto(file, surnames = True):
             # entries were adapted from CC-EDICT
             definitions = line[line.index("/") + 1 : line.rindex("/")].split("/")
 
-            # Added a toggle for surnames, with the default being true as to capture a full scope of the dictionary
-            # Skip surname if surname toggle is false and the entry has surname in it's definition
-            # Hmm, actually this might not work since the surname is added as a definition within the definitions, and not as something separate
-            # Might be good though, since I can just keep it in and not have to worry about this
-            if not surnames and "surname" in definitions:
-                continue
-
             entry = {"traditional": traditional, "simplified": simplified, "pinyin": pinyin, "jyutping": jyutping, "definitions": definitions}
             
-
             # Block to handle hanzi with multiple pronounciations and entries, like 重, which has 4 entries.
             # Converts into bucket if something hashes into the same key, else add normally
             if not entries.get(traditional):
@@ -61,7 +53,6 @@ def parse_cc_canto(file, surnames = True):
                 entries[traditional].append(entry)
             else:
                 entries[traditional] = [entries[traditional], entry]
-            
 
     return entries
 
