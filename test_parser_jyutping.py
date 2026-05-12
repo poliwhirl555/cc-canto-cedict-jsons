@@ -1,6 +1,6 @@
 import io
 import pytest
-from parser import *
+from parser import parse_cc_canto
 
 # Single line parse, simple entry
 def test_single_def_parse():

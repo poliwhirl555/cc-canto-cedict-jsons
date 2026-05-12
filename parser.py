@@ -21,10 +21,17 @@ from typing import List
 # Parsing code based on code in Jyut Dictionary
 # https://github.com/aaronhktan/jyut-dict/blob/main/src/dictionaries/cedict/generate-readings.py
 
-# Input: CC-Canto file, a key to use for the dictionary, one of "traditional", "simplified", "pinyin", "jyutping" or None
-# Output: A (k,v) map of v = dicts containing all the information in an entry, k = the inputed key 
-#           OR a list of all entries if inputted key is none
-def parse_cc_canto(file, key = "traditional"):
+def parse(filepath, key):
+    # Might need a toggle for CC-CEDICT or CC_CANTO, but might not actually since I can just search for the *second* "[" and the first "]"
+    # and that would handle both V1 and V2, and mixed version too.
+    # But then I still need the toggle since I need to know to search for jyutping, and whether to add that to the dictionary or not
+    # Although I could handle that programmatically as well, and just let the person dealing with the output check
+    # Maybe I'll need the tag after all since I think CC-Canto and CC-CEDICT handle the surnames different, 
+    # with the surnames being split out in CC-CEDICT while not in CC-CANTO,
+    # so there would be no need for a surname toggle for CC-CANTO while there might in CC-EDICT
+
+    # TODO: Just copy and pasted from parse_cc_canto, still need to modify for the above
+
     # Check if the entered key is valid
     if key not in ["traditional", "simplified", "pinyin", "jyutping", None]:
             raise ValueError("Invalid key. Property does not exist in CC-Canto entry.")
@@ -34,7 +41,7 @@ def parse_cc_canto(file, key = "traditional"):
     else:
         entries = {}
 
-    with open(file, "r", encoding="utf8") as f:
+    with open(filepath, "r", encoding="utf8") as f:
         for line in f:
             # Might be good to move everything below into it's own get_entry function, but that might impact readability and be unnecessary
             # Depends on when and if I do the SQLite version
@@ -70,48 +77,16 @@ def parse_cc_canto(file, key = "traditional"):
 
     return entries
 
+# Input: CC-Canto file path, a key to use for the dictionary, one of "traditional", "simplified", "pinyin", "jyutping" or None
+# Output: A (k,v) map of v = dicts containing all the information in an entry, k = the inputed key 
+#           OR a list of all entries if inputted key is none
+def parse_cc_canto(filepath, key = "traditional"):
+    return parse(filepath, key)
+
 # Stub for a future parse CC-EDICT function. Moved the surname skipping toggle here since it'll probably be needed for CC-EDICT
-def parse_cc_edict(file, surnames = True):
-    entries = {}
-    with open(file, "r", encoding="utf8") as f:
-
-        for line in f:
-            if len(line) == 0 or line[0] == "#":
-                continue
-
-            # Unmodified parser, adapt for CC_EDICT
-
-            # split = line.split()  # Splits by whitespace
-            # traditional = split[0]
-            # simplified = split[1]
-            # pinyin = line[line.index("[") + 1 : line.index("]")].lower().replace("v", "u:")
-            # jyutping = line[line.index("{") + 1 : line.index("}")].lower()
-
-            # definitions = line[line.index("/") + 1 : line.rindex("/")].split("/")
-
-            # Added a toggle for surnames, with the default being true as to capture a full scope of the dictionary
-            # Skip surname if surname toggle is false and the entry has surname in it's definition
-
-            # if not surnames and "surname" in definitions:
-            #     continue
-
-            # entry = {"traditional": traditional, "simplified": simplified, "pinyin": pinyin, "jyutping": jyutping, "definitions": definitions}
-            
-            
-
-
-            # Block to handle hanzi with multiple pronounciations and entries, like 重, which has 4 entries.
-            # Converts into bucket if something hashes into the same key, else add normally
-
-            # if not entries.get(traditional):
-            #     entries[traditional] = entry
-            # elif type(entries[traditional]) is list:
-            #     entries[traditional].append(entry)
-            # else:
-            #     entries[traditional] = [entries[traditional], entry]
-            
-
-    return entries
+def parse_cc_edict(filepath, surnames = True):
+    # Might need to change this later
+    return parse(filepath, key)
 
 
 
