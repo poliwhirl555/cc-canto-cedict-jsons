@@ -1,27 +1,20 @@
-# I think I have to write the parser myself, so I guess this is the file for it
-
-# CC-Canto
-# Split by whitepsace, first is trad, second is simplified, third is pinyin, fourth is jyutping
-# Need to figure out how to deal with entries
-# Should be every "; " splits into a new entry, so splitting by space is already good, but I can already see a typo in there
-
-# Can source parsing code from here: https://github.com/aaronhktan/jyut-dict/blob/main/src/dictionaries/cedict/generate-readings.py
-# Just have to remember to include the MIT License
-# Do I even need to since I'm taking a subportion of the code and not the entire thing? Maybe I should just to be safe.
-
-# Use Array, JSON< or SQL/some other sort of database? 
-# Need to store the dictionaries in readable form somehow else it'll be annoying to have to run this each time.
-
 # At this point, might as well create JSON and SQLite database version of the data, with an update script, so that
 # I don't have to deal with this every time I want to access the data programmatically 
 
 import sqlite3
 from typing import List
 
+DICT_TYPES = ["CANTO", "CEDICT"]
+VALID_KEYS = {"CEDICT": ["traditional", "simplified", "pinyin", None],
+               "CANTO": ["traditional", "simplified", "pinyin", "jyutping", None]}
+# No need for this as I can just strip the extra [] after the outer one
+# SEPARATORS = {"CEDICT": ["[[", "]]"],
+#                "CANTO": ["[", "]"]}
+
 # Parsing code based on code in Jyut Dictionary
 # https://github.com/aaronhktan/jyut-dict/blob/main/src/dictionaries/cedict/generate-readings.py
 
-def parse(filepath, key):
+def parse(filepath, dict_type, key):
     # Might need a toggle for CC-CEDICT or CC_CANTO, but might not actually since I can just search for the *second* "[" and the first "]"
     # and that would handle both V1 and V2, and mixed version too.
     # But then I still need the toggle since I need to know to search for jyutping, and whether to add that to the dictionary or not
@@ -32,10 +25,14 @@ def parse(filepath, key):
 
     # TODO: Just copy and pasted from parse_cc_canto, still need to modify for the above
 
-    # Check if the entered key is valid
-    if key not in ["traditional", "simplified", "pinyin", "jyutping", None]:
-            raise ValueError("Invalid key. Property does not exist in CC-Canto entry.")
+    # Check if dict_type is valid
+    if dict_type not in DICT_TYPES:
+        raise ValueError("Invalid dictionary type")
     
+    # Check if the entered key is valid
+    if key not in VALID_KEYS[dict_type]:
+            raise ValueError("Invalid key. Property does not exist in CC-{dict_type}.")
+
     if key == None:
         entries = []
     else:
@@ -51,8 +48,10 @@ def parse(filepath, key):
             split = line.split()  # Splits by whitespace
             traditional = split[0]
             simplified = split[1]
-            pinyin = line[line.index("[") + 1 : line.index("]")].lower().replace("v", "u:")
-            jyutping = line[line.index("{") + 1 : line.index("}")].lower()
+            pinyin = line[line.index("[") + 1 : line.index("]")].lower().replace("v", "u:").replace("[", ""). replace("]", "") # Strip extra [] for V2 CC_CEDICT entries
+            if dict_type == "CANTO":
+                jyutping = line[line.index("{") + 1 : line.index("}")].lower()
+            
 
             # Seems like there are python style comments marked by # in the defintions that need handling (see the test input file)
             # This takes care of the comments since it leaves off everything after the last part of the defintion
@@ -60,7 +59,12 @@ def parse(filepath, key):
             # entries were adapted from CC-EDICT
             definitions = line[line.index("/") + 1 : line.rindex("/")].split("/")
 
-            entry = {"traditional": traditional, "simplified": simplified, "pinyin": pinyin, "jyutping": jyutping, "definitions": definitions}
+            entry = {"traditional": traditional, "simplified": simplified, "pinyin": pinyin}
+            
+            if dict_type == "CANTO":
+                entry["jyutping"] = jyutping
+
+            entry["definitions"] = definitions
             
             # Block to handle hanzi with multiple pronounciations and entries, like 重, which has 4 entries, 
             # or if sorting by non-default keys, anything that ends up with the same key
@@ -81,12 +85,12 @@ def parse(filepath, key):
 # Output: A (k,v) map of v = dicts containing all the information in an entry, k = the inputed key 
 #           OR a list of all entries if inputted key is none
 def parse_cc_canto(filepath, key = "traditional"):
-    return parse(filepath, key)
+    return parse(filepath, "CANTO", key)
 
 # Stub for a future parse CC-EDICT function. Moved the surname skipping toggle here since it'll probably be needed for CC-EDICT
-def parse_cc_edict(filepath, surnames = True):
+def parse_cc_edict(filepath, key = "traditional", surnames = True):
     # Might need to change this later
-    return parse(filepath, key)
+    return parse(filepath, "CEDICT", key)
 
 
 
