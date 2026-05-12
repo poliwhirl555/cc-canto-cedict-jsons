@@ -7,24 +7,11 @@ from typing import List
 DICT_TYPES = ["CANTO", "CEDICT"]
 VALID_KEYS = {"CEDICT": ["traditional", "simplified", "pinyin", None],
                "CANTO": ["traditional", "simplified", "pinyin", "jyutping", None]}
-# No need for this as I can just strip the extra [] after the outer one
-# SEPARATORS = {"CEDICT": ["[[", "]]"],
-#                "CANTO": ["[", "]"]}
 
 # Parsing code based on code in Jyut Dictionary
 # https://github.com/aaronhktan/jyut-dict/blob/main/src/dictionaries/cedict/generate-readings.py
 
 def parse(filepath, dict_type, key):
-    # Might need a toggle for CC-CEDICT or CC_CANTO, but might not actually since I can just search for the *second* "[" and the first "]"
-    # and that would handle both V1 and V2, and mixed version too.
-    # But then I still need the toggle since I need to know to search for jyutping, and whether to add that to the dictionary or not
-    # Although I could handle that programmatically as well, and just let the person dealing with the output check
-    # Maybe I'll need the tag after all since I think CC-Canto and CC-CEDICT handle the surnames different, 
-    # with the surnames being split out in CC-CEDICT while not in CC-CANTO,
-    # so there would be no need for a surname toggle for CC-CANTO while there might in CC-EDICT
-
-    # TODO: Just copy and pasted from parse_cc_canto, still need to modify for the above
-
     # Check if dict_type is valid
     if dict_type not in DICT_TYPES:
         raise ValueError("Invalid dictionary type")
@@ -60,7 +47,7 @@ def parse(filepath, dict_type, key):
             definitions = line[line.index("/") + 1 : line.rindex("/")].split("/")
 
             entry = {"traditional": traditional, "simplified": simplified, "pinyin": pinyin}
-            
+
             if dict_type == "CANTO":
                 entry["jyutping"] = jyutping
 
