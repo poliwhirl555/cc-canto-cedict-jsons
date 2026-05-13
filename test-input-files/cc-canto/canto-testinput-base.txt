@@ -1,3 +1,4 @@
+事 事 [shi4] {si6} /matter/thing/item/work/affair M: 件jiàn [件] / 桩zhuāng [桩] / 回huí [回]/incident/to be engaged in/to serve/ # adapted from cc-cedict
 釆 釆 [bian4] {bin6} /to distinguish/to recognize/KangXi radical 165/ # adapted from cc-cedict
 采 采 [cai3] {coi2} /color/complexion/looks/variant of 彩cǎi [彩]/variant of 采cǎi [采]/facial expression/ # adapted from cc-cedict
 采 采 [cai3] {coi3} /fief/feudal estate/vassalage/ # adapted from cc-cedict
@@ -10,3 +11,4 @@
 野 野 [ye3] {je5} /field/plain/open space/limit/boundary/rude/feral/open country/wilderness/outside government (those who are not in power)/district/wild/savage/rustic/primitive/extremely/countryside/uncultivated/untamed/unrestrained/sphere/illegitimate/ # adapted from cc-cedict
 量 量 [liang4] {loeng4} /to take a measurement/to gauge/to survey/to deliberate/to take into consideration/ # adapted from cc-cedict
 量 量 [liang4] {loeng6} /capacity/quantity/amount/to estimate/abbr. for 量词liàngcí [量词], classifier (in Chinese grammar)/measure word/to appraise/to evaluate/to limit/ # adapted from cc-cedict
+不安 不安 [bu4 an1] {bat1 on1} /(adjective) Unease/
