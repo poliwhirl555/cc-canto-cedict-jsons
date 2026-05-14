@@ -79,11 +79,4 @@ def parse_cc_edict(filepath, key = "traditional", surnames = True):
     # Might need to change this later
     return parse(filepath, "CEDICT", key)
 
-
-
-            
-
-
-
-            
-
+# Maybe add a surname remover at some point

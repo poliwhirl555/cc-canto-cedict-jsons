@@ -4,13 +4,8 @@ from parser import parse_cc_canto
 
 # Single line parse, simple entry
 def test_single_def():
-    assert parse_cc_canto("test-input-files/cc-canto/single line def.txt") == {"鰠": 
-                                                            {"traditional": "鰠", 
-                                                             "simplified": "鳋", 
-                                                             "pinyin": "sao1", 
-                                                             "jyutping": "sou1", 
-                                                             "definitions": ["carp"]}
-                                                            }
+    expected = {"鰠": {"traditional": "鰠", "simplified": "鳋", "pinyin": "sao1", "jyutping": "sou1", "definitions": ["carp"]}}
+    assert parse_cc_canto("test-input-files/cc-canto/single line def.txt") == expected
 
 # Single line, multiple defintions
 def test_multi_def():
