@@ -11,14 +11,14 @@ VALID_KEYS = {"CEDICT": ["traditional", "simplified", "pinyin", None],
 # Parsing code based on code in Jyut Dictionary
 # https://github.com/aaronhktan/jyut-dict/blob/main/src/dictionaries/cedict/generate-readings.py
 
-def parse(filepath, dict_type, key):
+def parse(filepath, dict_type, key = None):
     # Check if dict_type is valid
     if dict_type not in DICT_TYPES:
         raise ValueError("Invalid dictionary type")
     
     # Check if the entered key is valid
     if key not in VALID_KEYS[dict_type]:
-            raise ValueError("Invalid key. Property does not exist in CC-{dict_type}.")
+            raise ValueError(f"Invalid key. Property does not exist in CC-{dict_type}.")
 
     if key == None:
         entries = []
