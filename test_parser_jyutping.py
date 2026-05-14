@@ -56,14 +56,24 @@ def test_multi_map_to_same_hz():
                                     "definitions": ["to take a measurement", "to gauge", "to survey", "to deliberate", "to take into consideration"]},
                       {"traditional": "量",  "simplified": "量", "pinyin": "liang4", "jyutping": "loeng6", 
                                     "definitions": ["capacity", "quantity", "amount", "to estimate", "abbr. for 量词liàngcí [量词], classifier (in Chinese grammar)", "measure word", "to appraise", "to evaluate", "to limit"]}]}
-    assert parse_cc_canto("test-input-files/cc-canto/multi map to same hz.txt")
+    assert parse_cc_canto("test-input-files/cc-canto/multi map to same hz.txt") == expected
 
 def test_multi_map_to_same_pinyin():
-    # TODO
-    
-    return
+    expected = {"zhong4": [{"traditional": "重",  "simplified": "重", "pinyin": "zhong4", "jyutping": "cung4", 
+                    "definitions": ["to duplicate", "to overlap", "layer", "multiple", "double", "again", "once more", "afresh", "repeatedly", "successivey", "to repeat"]},
+                    {"traditional": "重", "simplified": "重", "pinyin": "zhong4", "jyutping": "cung5", 
+                                "definitions": ["heavy", "weighty", "strong", "deep", "serious", "considerable in amount ", " value", "weight", "heavily", "severely"]},
+                    {"traditional": "重",  "simplified": "重", "pinyin": "zhong4", "jyutping": "zung6", 
+                                "definitions": ["to attach importance to", "important", "significant", "solemn", "discreet", "furthermore", "still", "even", "also", "valuable", "in addition"]}],
+                "liang4": [{"traditional": "量",  "simplified": "量", "pinyin": "liang4", "jyutping": "loeng4", 
+                                "definitions": ["to take a measurement", "to gauge", "to survey", "to deliberate", "to take into consideration"]},
+                    {"traditional": "量",  "simplified": "量", "pinyin": "liang4", "jyutping": "loeng6", 
+                                "definitions": ["capacity", "quantity", "amount", "to estimate", "abbr. for 量词liàngcí [量词], classifier (in Chinese grammar)", "measure word", "to appraise", "to evaluate", "to limit"]}]}
+    assert parse_cc_canto("test-input-files/cc-canto/multi map to same hz.txt", "pinyin") == expected
 
 def test_multi_map_to_same_jyutping():
     # TODO
     return
     
+# def test_run():
+#     print(parse_cc_canto("test-input-files/cc-canto/multi map to same hz.txt"))

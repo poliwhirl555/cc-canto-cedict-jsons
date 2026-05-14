@@ -59,9 +59,9 @@ def parse(filepath, dict_type, key):
             # If there is no key, just add to the list
             if key == None:
                 entries.append(entry)
-            elif not entries.get(key):
+            elif not entries.get(entry[key]):
                 entries[entry[key]] = entry
-            elif type(entries[key]) is list:
+            elif type(entries[entry[key]]) is list:
                 entries[entry[key]].append(entry)
             else:
                 entries[entry[key]] = [entries[entry[key]], entry]
