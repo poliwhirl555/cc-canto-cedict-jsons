@@ -18,7 +18,7 @@ def test_multi_def():
                     "definitions": ["type", "form", "pattern", "style", "formula", "standards", "ceremony", "ritual", "mode", "tense"]}}
     assert parse_cc_canto("test-input-files/cc-canto/single line multi def.txt") == expected
 
-# Multi line, multi def
+# Multi line, single def
 def test_multi_entry_single_def():
     expected = {"一夫": {"traditional": "一夫",  "simplified": "一夫", "pinyin": "yi1 fu1", "jyutping": "jat1 fu1", 
                     "definitions": ["One husband"]},
@@ -30,7 +30,7 @@ def test_multi_entry_single_def():
                                     "definitions": ["Come to a dead end;have no way out"]},
                 "從": {"traditional": "從",  "simplified": "从", "pinyin": "cong2", "jyutping": "cung4", 
                                     "definitions": ["(preposition, conjunction, adverb) Since"]}}
-    assert parse_cc_canto("test-input-files/cc-canto/multi line multi def.txt") == expected
+    assert parse_cc_canto("test-input-files/cc-canto/multi line single def.txt") == expected
 
 # Multi line, multi def
 def test_multi_entry_multi_def():
@@ -46,20 +46,21 @@ def test_multi_entry_multi_def():
 
 # Multiple mapping to same Hanzi
 def test_multi_map_to_same_hz():
-    expected = {"重": {"traditional": "重",  "simplified": "重", "pinyin": "zhong4", "jyutping": "cung4", 
-                    "definitions": ["to duplicate", "to overlap", "layer", "multiple", "double", "again", "once more", "afresh", "repeatedly", "successivey", "to repeat"]},
-                "重": {"traditional": "重", "simplified": "重", "pinyin": "zhong4", "jyutping": "cung5", 
+    expected = {"重": [{"traditional": "重",  "simplified": "重", "pinyin": "zhong4", "jyutping": "cung4", 
+                        "definitions": ["to duplicate", "to overlap", "layer", "multiple", "double", "again", "once more", "afresh", "repeatedly", "successivey", "to repeat"]},
+                        {"traditional": "重", "simplified": "重", "pinyin": "zhong4", "jyutping": "cung5", 
                                     "definitions": ["heavy", "weighty", "strong", "deep", "serious", "considerable in amount ", " value", "weight", "heavily", "severely"]},
-                "重": {"traditional": "重",  "simplified": "重", "pinyin": "zhong4", "jyutping": "zung6", 
-                                    "definitions": ["to attach importance to", "important", "significant", "solemn", "discreet", "furthermore", "still", "even", "also", "valuable", "in addition"]},
-                "量": {"traditional": "量",  "simplified": "量", "pinyin": "liang4", "jyutping": "loeng4", 
+                        {"traditional": "重",  "simplified": "重", "pinyin": "zhong4", "jyutping": "zung6", 
+                                    "definitions": ["to attach importance to", "important", "significant", "solemn", "discreet", "furthermore", "still", "even", "also", "valuable", "in addition"]}],
+                "量": [{"traditional": "量",  "simplified": "量", "pinyin": "liang4", "jyutping": "loeng4", 
                                     "definitions": ["to take a measurement", "to gauge", "to survey", "to deliberate", "to take into consideration"]},
-                "量": {"traditional": "量",  "simplified": "量", "pinyin": "liang4", "jyutping": "loeng6", 
-                                    "definitions": ["capacity", "quantity", "amount", "to estimate", "abbr. for 量词liàngcí [量词], classifier (in Chinese grammar)", "measure word", "to appraise", "to evaluate", "to limit"]}}
+                      {"traditional": "量",  "simplified": "量", "pinyin": "liang4", "jyutping": "loeng6", 
+                                    "definitions": ["capacity", "quantity", "amount", "to estimate", "abbr. for 量词liàngcí [量词], classifier (in Chinese grammar)", "measure word", "to appraise", "to evaluate", "to limit"]}]}
     assert parse_cc_canto("test-input-files/cc-canto/multi map to same hz.txt")
 
 def test_multi_map_to_same_pinyin():
     # TODO
+    
     return
 
 def test_multi_map_to_same_jyutping():
