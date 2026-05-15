@@ -80,3 +80,4 @@ def parse_cc_cedict(filepath, key = "traditional", surnames = True):
     return parse(filepath, "CEDICT", key)
 
 # Maybe add a surname remover at some point
+# And or some SQLite integration later as well, for easier searching
