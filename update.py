@@ -38,6 +38,17 @@ def fetch_raw():
     return raw_paths
 
 # # for each possible key, including none, generate the json for that key and save it to repository directory
-# def generate_jsons():
-#     # for dt in DICT_TYPES:
-#     return
+def generate_jsons(input_file_path):
+    # Figure out which type of dict data we're working with
+    dict_type = None
+    for dt in DICT_TYPES:
+        if input_file_path.match("*" + dt.lower() + "*.zip"):
+            dict_type = dt
+    
+    if not dict_type:
+        raise ValueError('Invalid invalid input file path.')
+    
+    # Generate the jsons for each valid key and save them to the current directory
+    for key in VALID_KEYS[dt]:
+        # generate some JSONS
+        return
