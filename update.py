@@ -1,6 +1,8 @@
 import requests
 import time
 import json
+import glob
+import os
 from zipfile import *
 from pathlib import Path
 from parser import DICT_TYPES, VALID_KEYS, parse
@@ -28,7 +30,16 @@ FILE_PREFIXES = {"CEDICT": "cedict_1_0_ts_utf-8_mdbg_",
 INTERNAL_NAME = {"CEDICT": "cedict_ts.u8",
                  "CANTO": "cccanto-webdist.txt"}
 
-# Fetch the raw zip files from the CC-CEDICT website
+def load_latest_data():
+    # Add some data cleanup, deleting the old raws
+    clean_raws()
+    clean_jsons()
+    raw_paths = fetch_raw()
+    for p in raw_paths:
+        generate_jsons(p)
+    
+
+# Fetch the raw zip files from the CC-CEDICT and CC_CANTO website
 def fetch_raw():
     raw_paths = []
     for dt in DICT_TYPES:
@@ -41,6 +52,13 @@ def fetch_raw():
         savefile.write_bytes(r.content)
         raw_paths.append[savefile]
     return raw_paths
+
+# Function to delete all raw files, usually used to remove the old ones
+def clean_raws():
+    for dt in DICT_TYPES:
+        files = glob.glob(FILE_PREFIXES[dt] + "*" +".zip")
+        for file in files:
+            os.remove(file)
 
 # for each possible key, including none, generate the json for that key and save it to repository directory
 def generate_jsons(input_file_path):
@@ -68,3 +86,10 @@ def generate_jsons(input_file_path):
         storage_name = filename + "_key_" + key + "_" + current_time +".json"
         with open(storage_name, "w") as out_file:
             json.dump(dict_data, out_file, indent = 4)
+
+def clean_jsons():
+    search_regex = f"*({DICT_TYPES[0]}|{DICT_TYPES[1]})*.json"
+    results = glob.glob(search_regex)
+    for file in results:
+        os.remove(file)
+    
