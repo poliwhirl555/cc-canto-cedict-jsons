@@ -1,7 +1,9 @@
 import requests
 import time
+import json
+from zipfile import *
 from pathlib import Path
-from parser import DICT_TYPES, VALID_KEYS
+from parser import DICT_TYPES, VALID_KEYS, parse
 
 # This does work and does get the file properly, only issue is the time isn't entered in properly because of formatting issues.
 spec_time = time.gmtime()
@@ -23,6 +25,9 @@ GET_LINKS = {"CEDICT": "https://www.mdbg.net/chinese/export/cedict/cedict_1_0_ts
              "CANTO": "https://cantonese.org/cccanto-170202.zip"}
 FILE_PREFIXES = {"CEDICT": "cedict_1_0_ts_utf-8_mdbg_",
                  "CANTO": "cccanto-"}
+INTERNAL_NAME = {"CEDICT": "cedict_ts.u8",
+                 "CANTO": "cccanto-webdist.txt"}
+
 # Fetch the raw zip files from the CC-CEDICT website
 def fetch_raw():
     raw_paths = []
@@ -37,7 +42,7 @@ def fetch_raw():
         raw_paths.append[savefile]
     return raw_paths
 
-# # for each possible key, including none, generate the json for that key and save it to repository directory
+# for each possible key, including none, generate the json for that key and save it to repository directory
 def generate_jsons(input_file_path):
     # Figure out which type of dict data we're working with
     dict_type = None
@@ -48,7 +53,18 @@ def generate_jsons(input_file_path):
     if not dict_type:
         raise ValueError('Invalid invalid input file path.')
     
-    # Generate the jsons for each valid key and save them to the current directory
+    # Get a list of items in the zip
+    internals = None
+    with ZipFile(input_file_path) as zip:
+        internals = zip.infolist()
+        zip.extract(internals[0])
+    
+    filename = internals[0].filename
+    # Generate the jsons for each valid key and save them to the current 
+    # TODO: Should probably delete the old ones first before this
     for key in VALID_KEYS[dt]:
-        # generate some JSONS
-        return
+        current_time = time.strftime("%Y-%m-%d", time.gmtime())
+        dict_data = parse(filename, dict_type, key)
+        storage_name = filename + "_key_" + key + "_" + current_time +".json"
+        with open(storage_name, "w") as out_file:
+            json.dump(dict_data, out_file, indent = 4)
