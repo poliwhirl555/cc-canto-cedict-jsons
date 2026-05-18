@@ -7,11 +7,6 @@ from zipfile import *
 from pathlib import Path
 from parser import DICT_TYPES, VALID_KEYS, parse
 
-# TODO: Current issues:
-# - Blocked at line 69 of update when generating jsons. Doesn't seem to wrok wtih cedict but does work with CC-Canto
-# - Not cleaning up the old files properly, at least not the json files.
-# - Encoding of the jsons does not properly render the Hanzi, only as escaped unicode, which doesn't quite matter as it should read properly, but is still annoying
-
 
 GET_LINKS = {"CEDICT": "https://www.mdbg.net/chinese/export/cedict/cedict_1_0_ts_utf-8_mdbg.zip",
              "CANTO": "https://cantonese.org/cccanto-170202.zip"}
@@ -43,6 +38,8 @@ def fetch_raw():
 
 # Function to delete all raw files, usually used to remove the old ones
 def clean_raws():
+    # Does not clean the old .txt and .u8 file, but it doesn't matter as those should be constantly overwritten when unpacking.
+    # Might be good to include those just in case though. Maybe in the future
     for dt in DICT_TYPES:
         files = glob.glob(FILE_PREFIXES[dt] + "*" +".zip")
         for file in files:
