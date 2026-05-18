@@ -7,19 +7,6 @@ from zipfile import *
 from pathlib import Path
 from parser import DICT_TYPES, VALID_KEYS, parse
 
-# This does work and does get the file properly, only issue is the time isn't entered in properly because of formatting issues.
-spec_time = time.gmtime()
-# print(f"curr time: {spec_time}")
-current_time = time.strftime("%Y-%m-%d_%H:%M_%Z", spec_time)
-# print(current_time)
-filename = f"cedict_1_0_ts_utf-8_mdbg_{current_time}.zip"
-savefile = Path(filename)
-# savefile = Path(f"../{filename}") # You can in fact save it with relative path syntax using Path
-r = requests.get("https://www.mdbg.net/chinese/export/cedict/cedict_1_0_ts_utf-8_mdbg.zip", timeout = 30)
-print(r.headers)
-# savefile.write_bytes(r.content)
-
-# Thre's probably no need to read the time if this script is running once a month
 # read_time = time.strptime(filename[filename.index("2") : filename.index(".")], "%Y-%m-%d_%H:%M_%Z")
 # print(f"read time: {read_time}")
 
@@ -43,8 +30,6 @@ def load_latest_data():
 def fetch_raw():
     raw_paths = []
     for dt in DICT_TYPES:
-        # Should probably check if the files already exist, and to delete them if they already exist. Maybe in a new method?
-        # Check if a zip file with the lowercase of the dict type exists, and if so, delete them
         current_time = time.strftime("%Y-%m-%d_%H:%M_%Z", time.gmtime())
         filename = FILE_PREFIXES[dt] + current_time + ".zip"
         savefile = Path(filename)
@@ -78,8 +63,6 @@ def generate_jsons(input_file_path):
         zip.extract(internals[0])
     
     filename = internals[0].filename
-    # Generate the jsons for each valid key and save them to the current 
-    # TODO: Should probably delete the old ones first before this
     for key in VALID_KEYS[dt]:
         current_time = time.strftime("%Y-%m-%d", time.gmtime())
         dict_data = parse(filename, dict_type, key)
