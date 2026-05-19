@@ -36,7 +36,7 @@ def test_load_latest_data():
         # Check that the raws exist
         assert len(glob.glob(FILE_PREFIXES[dt] + "*.zip")) == 1
         # Check that the correct number of jsons are generated and they are readable
-        glob_string = f"*{dt.lower}*.json"
+        glob_string = f"*{dt.lower()}*.json"
         json_files = glob.glob(glob_string)
         num_json_files = len(json_files)
         num_keys = len(VALID_KEYS[dt])
