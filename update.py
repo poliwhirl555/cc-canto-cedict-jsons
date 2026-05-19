@@ -32,6 +32,7 @@ def fetch_raw():
         filename = FILE_PREFIXES[dt] + current_time + ".zip"
         savefile = Path(filename)
         r = requests.get(GET_LINKS[dt], timeout = 30)
+        r.raise_for_status() # To stop and abort if the status code isn't good
         savefile.write_bytes(r.content)
         raw_paths.append(savefile)
     return raw_paths
