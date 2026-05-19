@@ -47,15 +47,17 @@ def clean_raws():
             os.remove(file)
 
 # for each possible key, including none, generate the json for that key and save it to repository directory
+# TODO: Not creating the Jyutping keyed dictionary for some reason
 def generate_jsons(input_file_path):
     # Figure out which type of dict data we're working with
     dict_type = None
     for dt in DICT_TYPES:
         if input_file_path.match("*" + dt.lower() + "*.zip"):
             dict_type = dt
+        
     
     if not dict_type:
-        raise ValueError('Invalid invalid input file path.')
+        raise ValueError('Invalid input file path.')
     
     # Get a list of items in the zip
     internals = None
@@ -64,7 +66,7 @@ def generate_jsons(input_file_path):
         zip.extract(internals[0])
     
     filename = internals[0].filename
-    for key in VALID_KEYS[dt]:
+    for key in VALID_KEYS[dict_type]:
         current_time = time.strftime("%Y-%m-%d", time.gmtime())
         dict_data = parse(filename, dict_type, key)
         truncated_filename = filename[:filename.rindex(".")]
