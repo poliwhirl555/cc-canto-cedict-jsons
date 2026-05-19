@@ -1,6 +1,6 @@
 import pytest
 import requests
-import os.path
+import os
 import glob
 from parser import *
 from update import *
@@ -8,6 +8,8 @@ from update import *
 def test_fetch_raw():
     raw_paths = fetch_raw()
     assert len(raw_paths) == 2
+    for f in raw_paths:
+        os.remove(f)
 
 def test_clean_raws():
     current_time = time.strftime("%Y-%m-%d_%H:%M_%Z", time.gmtime())
@@ -47,3 +49,5 @@ def test_load_latest_data():
                     json.load(f)
                 except:
                     pytest.fail("Invalid json file created.")
+    clean_jsons()
+    clean_raws()
