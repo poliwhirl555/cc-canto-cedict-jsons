@@ -51,3 +51,26 @@ def test_load_latest_data():
                     pytest.fail("Invalid json file created.")
     clean_jsons()
     clean_raws()
+
+def test_load_latest_data_diff_dir(tmp_path):
+    load_latest_data(tmp_path)
+    curr_dir = os.getcwd()
+    os.chdir(tmp_path)
+    for dt in DICT_TYPES:
+        # Check that the raws exist
+        assert len(glob.glob(FILE_PREFIXES[dt] + "*.zip")) == 1
+        # Check that the correct number of jsons are generated and they are readable
+        glob_string = f"*{dt.lower()}*.json"
+        json_files = glob.glob(glob_string)
+        num_json_files = len(json_files)
+        num_keys = len(VALID_KEYS[dt])
+        assert num_json_files == num_keys
+        for jf in json_files:
+            with open(jf, "r") as f:
+                try:
+                    json.load(f)
+                except:
+                    pytest.fail("Invalid json file created.")
+    clean_jsons()
+    clean_raws()
+    os.chdir(curr_dir)

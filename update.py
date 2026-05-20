@@ -15,13 +15,17 @@ FILE_PREFIXES = {"CEDICT": "cedict_1_0_ts_utf-8_mdbg_",
 INTERNAL_NAME = {"CEDICT": "cedict_ts.u8",
                  "CANTO": "cccanto-webdist.txt"}
 
-def load_latest_data():
-    # Add some data cleanup, deleting the old raws
+def load_latest_data(json_end_dir = ""):
+    # A very lazy way of allowing the data to be dumped to a different directory, by changing the working directory and then changing it back after
+    curr_dir = os.getcwd()
+    if json_end_dir:
+        os.chdir(json_end_dir)
     clean_raws()
     clean_jsons()
     raw_paths = fetch_raw()
     for p in raw_paths:
         generate_jsons(p)
+    os.chdir(curr_dir)
     
 
 # Fetch the raw zip files from the CC-CEDICT and CC_CANTO website
@@ -47,7 +51,6 @@ def clean_raws():
             os.remove(file)
 
 # for each possible key, including none, generate the json for that key and save it to repository directory
-# TODO: Not creating the Jyutping keyed dictionary for some reason
 def generate_jsons(input_file_path):
     # Figure out which type of dict data we're working with
     dict_type = None
@@ -55,7 +58,6 @@ def generate_jsons(input_file_path):
         if input_file_path.match("*" + dt.lower() + "*.zip"):
             dict_type = dt
         
-    
     if not dict_type:
         raise ValueError('Invalid input file path.')
     
