@@ -2,8 +2,13 @@ import pytest
 import requests
 import os
 import glob
-from parser import *
+import sys
+sys.path.insert(0, "/home/poliwhirl555/projects/py_cc_cedict_canto_json/src") # This seems to be the only way to make things work, for some reason
 from update import *
+
+
+# def test_print_path():
+#     assert sys.path == []
 
 def test_fetch_raw():
     raw_paths = fetch_raw()

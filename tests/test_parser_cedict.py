@@ -1,4 +1,6 @@
 import pytest
+import sys
+sys.path.append("/home/poliwhirl555/projects/py_cc_cedict_canto_json/src")
 from parser import parse_cc_cedict
 
 def test_single_entry_single_def_v2():

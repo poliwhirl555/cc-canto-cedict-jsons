@@ -1,5 +1,7 @@
 import io
 import pytest
+import sys
+sys.path.insert(0, "/home/poliwhirl555/projects/py_cc_cedict_canto_json/src")
 from parser import parse_cc_canto
 
 # Single line parse, simple entry

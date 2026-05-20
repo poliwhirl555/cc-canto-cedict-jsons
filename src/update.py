@@ -3,6 +3,7 @@ import time
 import json
 import glob
 import os
+import sys
 from zipfile import *
 from pathlib import Path
 from parser import DICT_TYPES, VALID_KEYS, parse
