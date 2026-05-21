@@ -45,16 +45,11 @@ def fetch_raw():
     return raw_paths
 
 # Function to delete all raw files, usually used to remove the old ones
-# TODO: Refactor to allow cleaning different directories via use of get_raws()
 def clean_raws(dir = ""):
     # Does not clean the old .txt and .u8 file, but it doesn't matter as those should be constantly overwritten when unpacking.
     # Might be good to include those just in case though. Maybe in the future
     for f in get_raws(dir):
         os.remove(f)
-    # for dt in DICT_TYPES:
-    #     files = glob.glob(FILE_PREFIXES[dt] + "*" +".zip")
-    #     for file in files:
-    #         os.remove(file)
 
 # for each possible key, including none, generate the json for that key and save it to repository directory
 def generate_jsons(input_file_path):
@@ -86,19 +81,9 @@ def generate_jsons(input_file_path):
             output_paths.append(Path(storage_name))
     return output_paths
 
-# TODO: Add ability to work in different directories by refactoring to use get_jsons()
 def clean_jsons(dir = ""):
-    # search_regex = f".*({DICT_TYPES[0].lower()}|{DICT_TYPES[1].lower()}).*\.json"
-    # Need this "for" because fmatch through glob doesn't support the multiple option curly brace
-
     for f in get_jsons(dir):
         os.remove(f)
-
-    # for dt in DICT_TYPES:
-    #     search_glob = f"*{dt.lower()}*.json"
-    #     results = glob.glob(search_glob)
-    #     for file in results:
-    #         os.remove(file)
 
 def jsons_exists(dir = ""):
     for dt in DICT_TYPES:
@@ -107,34 +92,12 @@ def jsons_exists(dir = ""):
             return False
     return True
 
-    # curr_dir = os.getcwd()
-    # if dir:
-    #     os.chdir(dir)
-    # for dt in DICT_TYPES:
-    #     search_glob = f"*{dt.lower()}*.json"
-    #     results = glob.glob(search_glob)
-    #     if not len(results) == len(VALID_KEYS[dt]):
-    #         os.chdir(curr_dir)
-    #         return False
-    # os.chdir(curr_dir)
-    # return True
-
 def raws_exists(dir = ""):
     for dt in DICT_TYPES:
         raws = get_raws(dir, dt)
         if len(raws) == 0:
             return False
     return True
-    # curr_dir = os.getcwd()
-    # if dir:
-    #     os.chdir(dir)
-    # for dt in DICT_TYPES:
-    #     files = glob.glob(FILE_PREFIXES[dt] + "*" +".zip")
-    #     if len(files) == 0:
-    #         os.chdir(curr_dir)
-    #         return False
-    # os.chdir(curr_dir)
-    # return True
 
 # Get the data jsons from dir for dictionary type dict_type, if they exist
 def get_jsons(dir = "", dict_type = ""):

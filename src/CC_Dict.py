@@ -19,14 +19,7 @@ class CC_Dict:
             # Have to temporarily store the variable in a class attribute or else the variable will just fall out of scope and vanish
             self.jsons = load_latest_data(str(CC_Dict.data_dir))
             self.jsons = self.jsons_path_list_to_keyed_dict(self.jsons)
-            # for f in latest_jsons:
-            #     if self.type.lower() in f.stem.lower():
-            #         for k in VALID_KEYS[self.type]:
-            #             if str(k).lower() in f.stem.lower():
-            #                 self.jsons[k] = f
-            #                 break
-        # Need to add a layer to fetch jsons if not updating. Probably need a function in update.py
-        else:
+        else: # Fetch the existing jsons from the expected data directory
             self.jsons = map(pathlib.Path, get_jsons(self.data_dir, self.type))
             self.jsons = self.jsons_path_list_to_keyed_dict(self.jsons)
             
