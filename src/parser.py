@@ -4,7 +4,7 @@
 import sqlite3
 from typing import List
 
-DICT_TYPES = ["CANTO", "CEDICT"]
+DICT_TYPES = ["CEDICT", "CANTO"]
 VALID_KEYS = {"CEDICT": ["traditional", "simplified", "pinyin", None],
                "CANTO": ["traditional", "simplified", "pinyin", "jyutping", None]}
 

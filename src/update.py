@@ -9,12 +9,12 @@ from pathlib import Path
 from parser import DICT_TYPES, VALID_KEYS, parse
 
 
-GET_LINKS = {"CEDICT": "https://www.mdbg.net/chinese/export/cedict/cedict_1_0_ts_utf-8_mdbg.zip",
-             "CANTO": "https://cantonese.org/cccanto-170202.zip"}
-FILE_PREFIXES = {"CEDICT": "cedict_1_0_ts_utf-8_mdbg_",
-                 "CANTO": "cccanto-"}
-INTERNAL_NAME = {"CEDICT": "cedict_ts.u8",
-                 "CANTO": "cccanto-webdist.txt"}
+GET_LINKS = {DICT_TYPES[0]: "https://www.mdbg.net/chinese/export/cedict/cedict_1_0_ts_utf-8_mdbg.zip",
+             DICT_TYPES[1]: "https://cantonese.org/cccanto-170202.zip"}
+FILE_PREFIXES = {DICT_TYPES[0]: "cedict_1_0_ts_utf-8_mdbg_",
+                 DICT_TYPES[1]: "cccanto-"}
+INTERNAL_NAME = {DICT_TYPES[0]: "cedict_ts.u8",
+                 DICT_TYPES[1]: "cccanto-webdist.txt"}
 
 def load_latest_data(json_end_dir = ""):
     # A very lazy way of allowing the data to be dumped to a different directory, by changing the working directory and then changing it back after
@@ -24,9 +24,11 @@ def load_latest_data(json_end_dir = ""):
     clean_raws()
     clean_jsons()
     raw_paths = fetch_raw()
+    json_paths = []
     for p in raw_paths:
-        generate_jsons(p)
+        json_paths.extend(generate_jsons(p))
     os.chdir(curr_dir)
+    return json_paths
     
 
 # Fetch the raw zip files from the CC-CEDICT and CC_CANTO website
@@ -69,6 +71,7 @@ def generate_jsons(input_file_path):
         zip.extract(internals[0])
     
     filename = internals[0].filename
+    output_paths = []
     for key in VALID_KEYS[dict_type]:
         current_time = time.strftime("%Y-%m-%d", time.gmtime())
         dict_data = parse(filename, dict_type, key)
@@ -77,6 +80,8 @@ def generate_jsons(input_file_path):
         with open(storage_name, "w") as out_file:
             # ensure_ascii as false makes the Hanzi human readable, but hopefully it doesn't cause any problems
             json.dump(dict_data, out_file, ensure_ascii = False, indent = 4)
+            output_paths.append(storage_name)
+    return output_paths
 
 def clean_jsons():
     # search_regex = f".*({DICT_TYPES[0].lower()}|{DICT_TYPES[1].lower()}).*\.json"
