@@ -46,13 +46,15 @@ def fetch_raw():
 
 # Function to delete all raw files, usually used to remove the old ones
 # TODO: Refactor to allow cleaning different directories via use of get_raws()
-def clean_raws():
+def clean_raws(dir = ""):
     # Does not clean the old .txt and .u8 file, but it doesn't matter as those should be constantly overwritten when unpacking.
     # Might be good to include those just in case though. Maybe in the future
-    for dt in DICT_TYPES:
-        files = glob.glob(FILE_PREFIXES[dt] + "*" +".zip")
-        for file in files:
-            os.remove(file)
+    for f in get_raws(dir):
+        os.remove(f)
+    # for dt in DICT_TYPES:
+    #     files = glob.glob(FILE_PREFIXES[dt] + "*" +".zip")
+    #     for file in files:
+    #         os.remove(file)
 
 # for each possible key, including none, generate the json for that key and save it to repository directory
 def generate_jsons(input_file_path):
@@ -85,14 +87,18 @@ def generate_jsons(input_file_path):
     return output_paths
 
 # TODO: Add ability to work in different directories by refactoring to use get_jsons()
-def clean_jsons():
+def clean_jsons(dir = ""):
     # search_regex = f".*({DICT_TYPES[0].lower()}|{DICT_TYPES[1].lower()}).*\.json"
     # Need this "for" because fmatch through glob doesn't support the multiple option curly brace
-    for dt in DICT_TYPES:
-        search_glob = f"*{dt.lower()}*.json"
-        results = glob.glob(search_glob)
-        for file in results:
-            os.remove(file)
+
+    for f in get_jsons(dir):
+        os.remove(f)
+
+    # for dt in DICT_TYPES:
+    #     search_glob = f"*{dt.lower()}*.json"
+    #     results = glob.glob(search_glob)
+    #     for file in results:
+    #         os.remove(file)
 
 def jsons_exists(dir = ""):
     for dt in DICT_TYPES:
