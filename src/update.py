@@ -80,7 +80,7 @@ def generate_jsons(input_file_path):
         with open(storage_name, "w") as out_file:
             # ensure_ascii as false makes the Hanzi human readable, but hopefully it doesn't cause any problems
             json.dump(dict_data, out_file, ensure_ascii = False, indent = 4)
-            output_paths.append(storage_name)
+            output_paths.append(Path(storage_name))
     return output_paths
 
 def clean_jsons():
@@ -92,17 +92,27 @@ def clean_jsons():
         for file in results:
             os.remove(file)
 
-def jsons_exists():
+def jsons_exists(dir = ""):
+    curr_dir = os.getcwd()
+    if dir:
+        os.chdir(dir)
     for dt in DICT_TYPES:
         search_glob = f"*{dt.lower()}*.json"
         results = glob.glob(search_glob)
         if not len(results) == len (VALID_KEYS[dt]):
+            os.chdir(curr_dir)
             return False
+    os.chdir(curr_dir)
     return True
 
-def raws_exists():
+def raws_exists(dir = ""):
+    curr_dir = os.getcwd()
+    if dir:
+        os.chdir(dir)
     for dt in DICT_TYPES:
         files = glob.glob(FILE_PREFIXES[dt] + "*" +".zip")
         if len(files) == 0:
+            os.chdir(curr_dir)
             return False
+    os.chdir(curr_dir)
     return True

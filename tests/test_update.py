@@ -84,6 +84,12 @@ def test_load_latest_data_diff_dir(tmp_path):
     clean_raws()
     os.chdir(curr_dir)
 
+def test_raws_exists_different_dir_fail(tmp_path):
+    assert not raws_exists(tmp_path)
+
+def test_jsons_exists_different_dir_fail(tmp_path):
+    assert not jsons_exists(tmp_path)
+
 @pytest.fixture(scope = "session")
 def cleanup():
     yield
