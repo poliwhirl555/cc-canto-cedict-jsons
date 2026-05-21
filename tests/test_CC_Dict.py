@@ -34,6 +34,13 @@ def test_create_dict_complex_type_cedict(preload_data):
     for d in d_cedict:
         assert d.type == DICT_TYPES[0]
 
+def test_create_dict_pre_loaded_jsons(preload_data):
+    d = CC_Dict("CANTO")
+    d2 = CC_Dict("CEDICT")
+
+    assert set(d.jsons.keys()) == set(VALID_KEYS[d.type])
+    assert set(d2.jsons.keys()) == set(VALID_KEYS[d2.type])
+
 def test_create_dict_load_data():
     return # TODO: Finish later
 
@@ -58,12 +65,13 @@ def test_get_data(preload_data):
             else: # If keyless (None), just check if it's a list and entries contain the proper keys
                 assert type(data) is list
                 for dk in data[0].keys():
-                    assert dk in VALID_KEYS[dt]
+                    if not dk == "definitions":
+                        assert dk in VALID_KEYS[dt]
         
 
 def test_get_raw_path(preload_data):
     file_glob = {DICT_TYPES[0]: f"*{DICT_TYPES[0].lower()}*.u8",
-                 DICT_TYPES[1]: f"*{DICT_TYPES[1].lower()}*.zip"}
+                 DICT_TYPES[1]: f"*{DICT_TYPES[1].lower()}*.txt"}
     for dt in DICT_TYPES:
         dict = CC_Dict(dt)
         raw_path = Path(dict.get_raw_path())

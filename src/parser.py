@@ -4,9 +4,10 @@
 import sqlite3
 from typing import List
 
+# These being in capitals causes so much grief I should really just change them to lowercase
 DICT_TYPES = ["CEDICT", "CANTO"]
-VALID_KEYS = {"CEDICT": ["traditional", "simplified", "pinyin", None],
-               "CANTO": ["traditional", "simplified", "pinyin", "jyutping", None]}
+VALID_KEYS = {DICT_TYPES[0]: ["traditional", "simplified", "pinyin", None],
+               DICT_TYPES[1]: ["traditional", "simplified", "pinyin", "jyutping", None]}
 
 # Parsing code based on code in Jyut Dictionary
 # https://github.com/aaronhktan/jyut-dict/blob/main/src/dictionaries/cedict/generate-readings.py
@@ -36,7 +37,7 @@ def parse(filepath, dict_type, key = None):
             traditional = split[0]
             simplified = split[1]
             pinyin = line[line.index("[") + 1 : line.index("]")].lower().replace("v", "u:").replace("[", ""). replace("]", "") # Strip extra [] for V2 CC_CEDICT entries
-            if dict_type == "CANTO":
+            if dict_type == DICT_TYPES[1]:
                 jyutping = line[line.index("{") + 1 : line.index("}")].lower()
             
 
@@ -48,7 +49,7 @@ def parse(filepath, dict_type, key = None):
 
             entry = {"traditional": traditional, "simplified": simplified, "pinyin": pinyin}
 
-            if dict_type == "CANTO":
+            if dict_type == DICT_TYPES[1]:
                 entry["jyutping"] = jyutping
 
             entry["definitions"] = definitions
@@ -72,12 +73,12 @@ def parse(filepath, dict_type, key = None):
 # Output: A (k,v) map of v = dicts containing all the information in an entry, k = the inputed key 
 #           OR a list of all entries if inputted key is none
 def parse_cc_canto(filepath, key = "traditional"):
-    return parse(filepath, "CANTO", key)
+    return parse(filepath, DICT_TYPES[1], key)
 
 # Stub for a future parse CC-EDICT function. Moved the surname skipping toggle here since it'll probably be needed for CC-EDICT
 def parse_cc_cedict(filepath, key = "traditional", surnames = True):
     # Might need to change this later
-    return parse(filepath, "CEDICT", key)
+    return parse(filepath, DICT_TYPES[0], key)
 
 # Maybe add a surname remover at some point
 # And or some SQLite integration later as well, for easier searching

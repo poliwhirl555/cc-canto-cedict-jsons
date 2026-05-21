@@ -93,26 +93,58 @@ def clean_jsons():
             os.remove(file)
 
 def jsons_exists(dir = ""):
-    curr_dir = os.getcwd()
-    if dir:
-        os.chdir(dir)
     for dt in DICT_TYPES:
-        search_glob = f"*{dt.lower()}*.json"
-        results = glob.glob(search_glob)
-        if not len(results) == len (VALID_KEYS[dt]):
-            os.chdir(curr_dir)
+        jsons = get_jsons(dir, dt)
+        if not len(jsons) == len(VALID_KEYS[dt]):
             return False
-    os.chdir(curr_dir)
     return True
 
+    # curr_dir = os.getcwd()
+    # if dir:
+    #     os.chdir(dir)
+    # for dt in DICT_TYPES:
+    #     search_glob = f"*{dt.lower()}*.json"
+    #     results = glob.glob(search_glob)
+    #     if not len(results) == len(VALID_KEYS[dt]):
+    #         os.chdir(curr_dir)
+    #         return False
+    # os.chdir(curr_dir)
+    # return True
+
 def raws_exists(dir = ""):
-    curr_dir = os.getcwd()
-    if dir:
-        os.chdir(dir)
     for dt in DICT_TYPES:
-        files = glob.glob(FILE_PREFIXES[dt] + "*" +".zip")
-        if len(files) == 0:
-            os.chdir(curr_dir)
+        raws = get_raws(dir, dt)
+        if len(raws) == 0:
             return False
-    os.chdir(curr_dir)
     return True
+    # curr_dir = os.getcwd()
+    # if dir:
+    #     os.chdir(dir)
+    # for dt in DICT_TYPES:
+    #     files = glob.glob(FILE_PREFIXES[dt] + "*" +".zip")
+    #     if len(files) == 0:
+    #         os.chdir(curr_dir)
+    #         return False
+    # os.chdir(curr_dir)
+    # return True
+
+# Get the data jsons from dir for dictionary type dict_type, if they exist
+def get_jsons(dir = "", dict_type = ""):
+    curr_dir = None
+    if dir:
+        curr_dir = os.getcwd()
+        os.chdir(dir)
+    jsons = glob.glob(f"*{dict_type.lower()}*.json")
+    if curr_dir:
+        os.chdir(curr_dir)
+    return jsons
+
+def get_raws(dir = "", dict_type = ""):
+    curr_dir = None
+    if dir:
+        curr_dir = os.getcwd()
+        os.chdir(dir)
+    raws = glob.glob(FILE_PREFIXES[dict_type] + "*" +".zip")
+    if curr_dir:
+        os.chdir(curr_dir)
+    return raws
