@@ -54,8 +54,12 @@ def test_load_latest_data():
                     json.load(f)
                 except:
                     pytest.fail("Invalid json file created.")
-    clean_jsons()
-    clean_raws()
+
+def test_jsons_exist():
+    assert jsons_exists()
+
+def test_raws_exist():
+    assert raws_exists()
 
 def test_load_latest_data_diff_dir(tmp_path):
     load_latest_data(tmp_path)
@@ -79,3 +83,9 @@ def test_load_latest_data_diff_dir(tmp_path):
     clean_jsons()
     clean_raws()
     os.chdir(curr_dir)
+
+@pytest.fixture(scope = "session")
+def cleanup():
+    yield
+    clean_jsons()
+    clean_raws()

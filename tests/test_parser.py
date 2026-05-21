@@ -6,7 +6,7 @@ from parser import parse
 
 def test_invalid_dict_type():
     with pytest.raises(ValueError) as exception_info:
-        parse("test-input-files/cc-canto/single line def.txt", "SOMETHING")
+        parse("tests/test-input-files/cc-canto/single line def.txt", "SOMETHING")
 
 def test_key_none():
     expected = [{"traditional": "亮",  "simplified": "亮", "pinyin": "liang4", "jyutping": "loeng6", 
@@ -17,7 +17,7 @@ def test_key_none():
                     "definitions": ["(Cantonese) to be", "to connect", "to relate to", "to tie up", "to bind", "to be (literary)", "to involve", "relation", "relationship", "consequence", "yes", "indeed", "right"]},
                 {"traditional": "開火",  "simplified": "开火", "pinyin": "kai1huo3", "jyutping": "hoi1 fo2", 
                     "definitions": ["(verb) 1. To switch on (a rice cooker, light, etc.); (of cooking)", "Turn on (a gas burner); (slang)", "Argue; 2. Fight"]}]
-    assert parse("test-input-files/cc-canto/multi line multi def.txt", "CANTO") == expected
+    assert parse("tests/test-input-files/cc-canto/multi line multi def.txt", "CANTO") == expected
 
 def test_key_none_multi_map_to_same_hz():
     expected = [{"traditional": "重",  "simplified": "重", "pinyin": "zhong4", "jyutping": "cung4", 
@@ -30,5 +30,5 @@ def test_key_none_multi_map_to_same_hz():
                     "definitions": ["to take a measurement", "to gauge", "to survey", "to deliberate", "to take into consideration"]},
                 {"traditional": "量",  "simplified": "量", "pinyin": "liang4", "jyutping": "loeng6", 
                     "definitions": ["capacity", "quantity", "amount", "to estimate", "abbr. for 量词liàngcí [量词], classifier (in Chinese grammar)", "measure word", "to appraise", "to evaluate", "to limit"]}]
-    assert parse("test-input-files/cc-canto/multi map to same hz.txt", "CANTO") == expected
+    assert parse("tests/test-input-files/cc-canto/multi map to same hz.txt", "CANTO") == expected
 
