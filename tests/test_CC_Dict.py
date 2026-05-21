@@ -1,5 +1,7 @@
 import pytest
 import sys
+import inspect
+from pathlib import Path
 sys.path.insert(0, "/home/poliwhirl555/projects/py_cc_cedict_canto_json/src")
 from CC_Dict import *
 from parser import *
@@ -37,3 +39,33 @@ def test_create_dict_load_data():
 
 def test_create_dict_update():
     return # TODO: Finish later
+
+def test_get_data(preload_data):
+    for dt in DICT_TYPES:
+        dict = CC_Dict(dt)
+        for k in VALID_KEYS[dt]:
+            data = dict.get_data(k)
+            if k:
+                # Single iteration for loop to get any item from the dict
+                for dk in data:
+                    sample = data[dk]
+                    if type(sample) is list:
+                        # Check if the dictionary key dk for a particular entry matches the entry's value when accessed with k
+                        assert dk == sample[0][k]
+                    else:
+                        assert dk == sample[k]
+                    break
+            else: # If keyless (None), just check if it's a list and entries contain the proper keys
+                assert type(data) is list
+                for dk in data[0].keys():
+                    assert dk in VALID_KEYS[dt]
+        
+
+def test_get_raw_path(preload_data):
+    file_glob = {DICT_TYPES[0]: f"*{DICT_TYPES[0].lower()}*.u8",
+                 DICT_TYPES[1]: f"*{DICT_TYPES[1].lower()}*.zip"}
+    for dt in DICT_TYPES:
+        dict = CC_Dict(dt)
+        raw_path = Path(dict.get_raw_path())
+        assert raw_path.is_file() and raw_path.match(file_glob[dt]) == True
+

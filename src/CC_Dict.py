@@ -19,10 +19,11 @@ class CC_Dict:
             latest_jsons = load_latest_data(str(CC_Dict.data_dir))
             for f in latest_jsons:
                 if self.type.lower() in f.stem.lower():
-                    for k in VALID_KEYS:
+                    for k in VALID_KEYS[self.type]:
                         if k.lower() in f.stem.lower():
                             self.jsons[k] = f
                             break
+        # Need to add a layer to fetch jsons if not updating. Probably need a function in update.py
     
     def get_data(self, key = None):
         data = None
