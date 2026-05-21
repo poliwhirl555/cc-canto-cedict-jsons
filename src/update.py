@@ -86,4 +86,18 @@ def clean_jsons():
         results = glob.glob(search_glob)
         for file in results:
             os.remove(file)
-    
+
+def jsons_exists():
+    for dt in DICT_TYPES:
+        search_glob = f"*{dt.lower()}*.json"
+        results = glob.glob(search_glob)
+        if not len(results) == len (VALID_KEYS[dt]):
+            return False
+    return True
+
+def raws_exists():
+    for dt in DICT_TYPES:
+        files = glob.glob(FILE_PREFIXES[dt] + "*" +".zip")
+        if len(files) == 0:
+            return False
+    return True
