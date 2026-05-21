@@ -45,6 +45,7 @@ def fetch_raw():
     return raw_paths
 
 # Function to delete all raw files, usually used to remove the old ones
+# TODO: Refactor to allow cleaning different directories via use of get_raws()
 def clean_raws():
     # Does not clean the old .txt and .u8 file, but it doesn't matter as those should be constantly overwritten when unpacking.
     # Might be good to include those just in case though. Maybe in the future
@@ -83,6 +84,7 @@ def generate_jsons(input_file_path):
             output_paths.append(Path(storage_name))
     return output_paths
 
+# TODO: Add ability to work in different directories by refactoring to use get_jsons()
 def clean_jsons():
     # search_regex = f".*({DICT_TYPES[0].lower()}|{DICT_TYPES[1].lower()}).*\.json"
     # Need this "for" because fmatch through glob doesn't support the multiple option curly brace
@@ -134,7 +136,14 @@ def get_jsons(dir = "", dict_type = ""):
     if dir:
         curr_dir = os.getcwd()
         os.chdir(dir)
-    jsons = glob.glob(f"*{dict_type.lower()}*.json")
+
+    jsons = []
+    if dict_type:
+        jsons = glob.glob(f"*{dict_type.lower()}*.json")
+    else:
+        for dt in DICT_TYPES:
+            jsons.extend(glob.glob(f"*{dt.lower()}*.json"))
+
     if curr_dir:
         os.chdir(curr_dir)
     return jsons
@@ -144,7 +153,14 @@ def get_raws(dir = "", dict_type = ""):
     if dir:
         curr_dir = os.getcwd()
         os.chdir(dir)
-    raws = glob.glob(FILE_PREFIXES[dict_type] + "*" +".zip")
+
+    raws = []
+    if dict_type:
+        raws = glob.glob(FILE_PREFIXES[dict_type] + "*" +".zip")
+    else:
+        for dt in DICT_TYPES:
+            raws.extend(glob.glob(FILE_PREFIXES[dt] + "*" +".zip"))
+    
     if curr_dir:
         os.chdir(curr_dir)
     return raws
