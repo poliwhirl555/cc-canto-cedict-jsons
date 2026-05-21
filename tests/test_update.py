@@ -90,6 +90,7 @@ def test_raws_exists_different_dir_fail(tmp_path):
 def test_jsons_exists_different_dir_fail(tmp_path):
     assert not jsons_exists(tmp_path)
 
+# This isn't quite working properly, need to figure out why
 @pytest.fixture(scope = "session")
 def cleanup():
     yield
