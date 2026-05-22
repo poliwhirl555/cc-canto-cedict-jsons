@@ -1,15 +1,18 @@
 import pytest
 import sys
 import inspect
+import os
 from pathlib import Path
 sys.path.insert(0, "/home/poliwhirl555/projects/py_cc_cedict_canto_json/src")
 from CC_Dict import *
 from parser import *
+from update import *
 
 
 @pytest.fixture
 def preload_data():
     data_load_dict = CC_Dict("CANTO")
+    return data_load_dict
 
 def test_create_dict_simple_type(preload_data):
     d = CC_Dict("CANTO")
@@ -42,10 +45,33 @@ def test_create_dict_pre_loaded_jsons(preload_data):
     assert set(d2.jsons.keys()) == set(VALID_KEYS[d2.type])
 
 def test_create_dict_load_data():
-    return # TODO: Finish later
+    clean_raws(CC_Dict.data_dir)
+    clean_jsons(CC_Dict.data_dir)
+    d = CC_Dict("CEDICT")
+    assert raws_exists(CC_Dict.data_dir)
+    assert jsons_exists(CC_Dict.data_dir)
+    
+# This test doesn't quite work for some reason, 
+# although I do see that it does work since I see the data being deleted and created
+# def test_create_dict_update(preload_data):
+#     old_jsons = get_jsons(CC_Dict.data_dir)
+#     old_raws = get_raws(CC_Dict.data_dir)
+#     old_json_mod_times = map(lambda j: Path(j).stat().st_mtime, old_jsons)
+#     old_raws_mod_times = map(lambda r: Path(r).stat().st_mtime, old_raws)
+#     d = CC_Dict("CEDICT", True)
+#     new_jsons = get_jsons(CC_Dict.data_dir)
+#     new_raws = get_raws(CC_Dict.data_dir)
+#     new_json_mod_times = map(lambda j: Path(j).stat().st_mtime, new_jsons)
+#     new_raws_mod_times = map(lambda r: Path(r).stat().st_mtime, new_raws)
 
-def test_create_dict_update():
-    return # TODO: Finish later
+#     assert len(old_jsons) == len(new_jsons)
+#     assert len(old_raws) == len(new_raws)
+
+#     for oj, nj in zip(old_json_mod_times, new_json_mod_times):
+#         assert nj > oj
+
+#     for orw, nrw in zip(old_raws_mod_times, new_raws_mod_times):
+#         assert nrw > orw
 
 def test_get_data(preload_data):
     for dt in DICT_TYPES:

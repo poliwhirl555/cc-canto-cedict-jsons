@@ -34,7 +34,11 @@ class CC_Dict:
     def get_raw_path(self):
         return str(CC_Dict.data_dir) + "/" + INTERNAL_NAME[self.type]
     
-    # Input: A list of Path objects to jsons
+    # TODO: Maybe add functions to dump or copy json files to other directories.
+
+    # Utility function
+    # Input: A list of Path objects to json
+    # Output: A list of Jsons
     def jsons_path_list_to_keyed_dict(self, json_paths):
         keyed_dict = {}
         for f in json_paths:

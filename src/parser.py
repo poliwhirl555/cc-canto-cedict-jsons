@@ -75,9 +75,8 @@ def parse(filepath, dict_type, key = None):
 def parse_cc_canto(filepath, key = "traditional"):
     return parse(filepath, DICT_TYPES[1], key)
 
-# Stub for a future parse CC-EDICT function. Moved the surname skipping toggle here since it'll probably be needed for CC-EDICT
 def parse_cc_cedict(filepath, key = "traditional", surnames = True):
-    # Might need to change this later
+    # Might need to change this later if I add surname exclusion
     return parse(filepath, DICT_TYPES[0], key)
 
 # Maybe add a surname remover at some point
