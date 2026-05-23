@@ -14,6 +14,11 @@ def preload_data():
     data_load_dict = CC_Dict("CANTO")
     return data_load_dict
 
+@pytest.fixture
+def preload_data_canto_dict():
+    data_load_dict = CC_Dict("CANTO", "traditional")
+    return data_load_dict
+
 def test_create_dict_simple_type(preload_data):
     d = CC_Dict("CANTO")
     d2 = CC_Dict("CEDICT")
@@ -102,4 +107,113 @@ def test_get_raw_path(preload_data):
         dict = CC_Dict(dt)
         raw_path = Path(dict.get_raw_path())
         assert raw_path.is_file() and raw_path.match(file_glob[dt]) == True
+
+def test_create_keyed_dict_CEDICT(preload_data):
+    for k in VALID_KEYS["CEDICT"]:
+        if not (k == "definitions" or k == None):
+            d = CC_Dict("CEDICT", k)
+            assert "jyutping" not in d.dict
+            json_loaded_dict = None
+            with open(d.jsons[k], "r") as j:
+                json_loaded_dict = json.load(j)
+            assert d.dict == json_loaded_dict
+
+def test_create_keyed_dict_CANTO():
+    for k in VALID_KEYS["CANTO"]:
+        if not (k == "definitions" or k == None):
+            d = CC_Dict("CANTO", k)
+            json_loaded_dict = None
+            with open(d.jsons[k], "r") as j:
+                json_loaded_dict = json.load(j)
+            assert d.dict == json_loaded_dict
+    
+# Tests for passthrough
+def test_get_subscript(preload_data_canto_dict):
+    d = preload_data_canto_dict
+    assert d["式"] == d.dict["式"]
+
+def test_set(preload_data_canto_dict):
+    d = preload_data_canto_dict
+    d["式"] = "a"
+    assert d.dict["式"] == "a"
+
+def test_del(preload_data_canto_dict):
+    d = preload_data_canto_dict
+    del d["式"]
+    assert not d.dict.get("式")
+
+def test_contains(preload_data_canto_dict):
+    d = preload_data_canto_dict
+    assert "式" in d
+    assert ("式" in d) == ("式" in d.dict)
+
+def test_len(preload_data_canto_dict):
+    d = preload_data_canto_dict
+    assert len(d) == len(d.dict)
+
+def test_iter(preload_data_canto_dict):
+    d = preload_data_canto_dict
+    for k, k2 in zip(d, d.dict):
+        assert k == k2
+
+def test_reversed(preload_data_canto_dict):
+    d = preload_data_canto_dict
+    for k, k2 in zip(reversed(d), reversed(d.dict)):
+        assert k == k2
+
+def test_equals(preload_data_canto_dict):
+    d = preload_data_canto_dict
+    d2 = CC_Dict("CANTO", "traditional")
+    assert d == d2
+
+def test_not_equal_not_keyed(preload_data_canto_dict):
+    d = preload_data_canto_dict
+    d2 = CC_Dict("CANTO")
+    assert not d == d2
+
+def test_not_equal(preload_data_canto_dict):
+    d = preload_data_canto_dict
+    d2 = CC_Dict("CEDICT", "simplified")
+    assert not d == d2
+
+def test_get(preload_data_canto_dict):
+    d = preload_data_canto_dict
+    assert d.get("式") == d.dict.get("式")
+
+def test_get_not_in_dict(preload_data_canto_dict):
+    d = preload_data_canto_dict
+    assert not d.get("definitely not in dictionary")
+    assert d.get("definitely not in dictionary") == d.dict.get("definitely not in dictionary")
+
+def test_get_keys(preload_data_canto_dict):
+    d = preload_data_canto_dict
+    assert d.keys() == d.dict.keys()
+
+def test_get_values(preload_data_canto_dict):
+    d = preload_data_canto_dict
+    assert list(d.values()) == list(d.dict.values())
+
+def test_items(preload_data_canto_dict):
+    d = preload_data_canto_dict
+    assert d.items() == d.dict.items()
+
+def test_pop(preload_data_canto_dict):
+    d = preload_data_canto_dict
+    entry = d["式"]
+    popped = d.pop("式")
+    assert entry == popped
+    assert not d.get("式")
+
+def test_pop_item(preload_data_canto_dict):
+    d = preload_data_canto_dict
+    last_key = next(reversed(d))
+    last_item = tuple([last_key, d[last_key]])
+    popped = d.popitem()
+    assert  d.get(last_key) == None
+    assert last_item == popped
+
+def test_copy(preload_data_canto_dict):
+    d = preload_data_canto_dict
+    d2 = d.copy()
+    assert d == d2
 

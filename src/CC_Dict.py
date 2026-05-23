@@ -26,9 +26,9 @@ class CC_Dict:
         self.key = key
         self.dict = {}
         # Only automatically load the data if a key is provided. Done this way for backwards compatibility.
-        if self.key.lower() not in [None, "description"]: 
+        if self.key and not self.key.lower() == "description" : 
             if self.key.lower() not in VALID_KEYS[self.type]:
-                raise ValueError("Invalid key for dictionary type!")
+                raise ValueError(f"{self.key} is an invalid key for dictionary type!")
             self.dict = self.get_data(self.key)
             
     
