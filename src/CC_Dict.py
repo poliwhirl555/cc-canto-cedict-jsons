@@ -7,7 +7,7 @@ from update import load_latest_data, raws_exists, jsons_exists, INTERNAL_NAME, g
 
 class CC_Dict:
     data_dir = pathlib.Path(inspect.getabsfile(load_latest_data)).parent.parent # Two parent levels because that's the current structure. Might have to modify this in the future, or make it a property of update.
-    def __init__(self, type, update = False):
+    def __init__(self, type, key = None, update = False):
         self.type = ""
         if "mandarin" in type.lower() or DICT_TYPES[0].lower() in type.lower():
             self.type = DICT_TYPES[0]
@@ -22,7 +22,14 @@ class CC_Dict:
         else: # Fetch the existing jsons from the expected data directory
             self.jsons = map(pathlib.Path, get_jsons(self.data_dir, self.type))
             self.jsons = self.jsons_path_list_to_keyed_dict(self.jsons)
-            
+
+        self.key = key
+        self.dict = {}
+        # Only automatically load the data if a key is provided. Done this way for backwards compatibility.
+        if self.key.lower() not in [None, "description"]: 
+            if self.key.lower() not in VALID_KEYS[self.type]:
+                raise ValueError("Invalid key for dictionary type!")
+            self.dict = self.get_data(self.key)
             
     
     def get_data(self, key = None):
@@ -50,4 +57,53 @@ class CC_Dict:
         return keyed_dict
     
 
-        
+    # The standard dictionary methods, implemented to allow use of syntatic sugar directly with CC_Dict when accessing the internal dict
+    def __getitem__(self, key):
+        return self.dict[key]    
+
+    def __setitem__(self, key, value):
+        self.dict[key] = value
+
+    def __delitem__(self, key):
+        del self.dict[key]
+
+    def __contains__(self, key):
+        return key in self.dict
+    
+    def __len__(self):
+       return len(self.dict)
+    
+    def __iter__(self):
+        return iter(self.dict)
+    
+    def __reversed__(self):
+        return reversed(self.dict)
+    
+    def __eq__(self, other):
+        if isinstance(other, CC_Dict):
+            return self.dict == other.dict and self.type == other.type and self.key == other.key and self.jsons == other.jsons
+        return self.dict == other
+    
+    def get(self, key, default=None):
+        return self.dict.get(key, default)
+
+    def keys(self):
+        return self.dict.keys()
+
+    def values(self):
+        return self.dict.values()
+
+    def items(self):
+        return self.dict.items()
+
+    def pop(self, key, *args):
+        return self.dict.pop(key, *args)
+
+    def popitem(self):
+        return self.dict.popitem()
+    
+    def copy(self):
+        copy_ccd = CC_Dict(self.type)
+        copy_ccd.key = self.key
+        copy_ccd.dict = self.dict.copy()
+        return copy_ccd

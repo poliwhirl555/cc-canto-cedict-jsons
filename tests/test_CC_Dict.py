@@ -58,7 +58,7 @@ def test_create_dict_load_data():
 #     old_raws = get_raws(CC_Dict.data_dir)
 #     old_json_mod_times = map(lambda j: Path(j).stat().st_mtime, old_jsons)
 #     old_raws_mod_times = map(lambda r: Path(r).stat().st_mtime, old_raws)
-#     d = CC_Dict("CEDICT", True)
+#     d = CC_Dict("CEDICT", update = True)
 #     new_jsons = get_jsons(CC_Dict.data_dir)
 #     new_raws = get_raws(CC_Dict.data_dir)
 #     new_json_mod_times = map(lambda j: Path(j).stat().st_mtime, new_jsons)
