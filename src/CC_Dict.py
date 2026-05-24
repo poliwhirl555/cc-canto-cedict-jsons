@@ -26,10 +26,13 @@ class CC_Dict:
         self.key = key
         self.dict = {}
         # Only automatically load the data if a key is provided. Done this way for backwards compatibility.
-        if self.key and not self.key.lower() == "description" : 
+        if self.key and not self.key.lower() == "definitions" : 
             if self.key.lower() not in VALID_KEYS[self.type]:
                 raise ValueError(f"{self.key} is an invalid key for dictionary type!")
             self.dict = self.get_data(self.key)
+        elif self.key == "definitions":
+            # Need to get a way to get the definition dict somehow
+            self.dict = definition_dict(self.get_data(self.key))
             
     
     def get_data(self, key = None):
@@ -112,4 +115,12 @@ class CC_Dict:
         return copy_ccd
 
 class definition_dict(dict):
+    # A special class to do a probably very inefficient search of all definitions for the inputted search key.
+    # Only overrides __getitem__ and get, everything else should work as normal
+    def __getitem__(self, key):
+        # This should technically work but it's actually insane and impossible to read
+        # Basically, accumulate all values v for all definitions, value pairs in self.dict where key is in any of the definitions in definitions 
+        return [v for k,v in zip(self.dict, self.dict.values()) if any(key in definition for definition in k)]
     
+    def get(self, key, default):
+        return self[key]
