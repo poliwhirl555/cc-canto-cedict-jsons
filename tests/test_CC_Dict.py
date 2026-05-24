@@ -3,7 +3,7 @@ import sys
 import inspect
 import os
 from pathlib import Path
-sys.path.insert(0, "/home/poliwhirl555/projects/py_cc_cedict_canto_json/src")
+sys.path.insert(0, "/home/poliwhirl555/projects/py_cc_cedict_canto_json/py-cc-dicts")
 from CC_Dict import *
 from parser import *
 from update import *

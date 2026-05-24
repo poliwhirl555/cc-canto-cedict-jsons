@@ -1,7 +1,7 @@
 import io
 import pytest
 import sys
-sys.path.insert(0, "/home/poliwhirl555/projects/py_cc_cedict_canto_json/src")
+sys.path.insert(0, "/home/poliwhirl555/projects/py_cc_cedict_canto_json/py-cc-dicts")
 from parser import parse
 
 def test_invalid_dict_type():
