@@ -82,7 +82,10 @@ class CC_Dict:
     def __eq__(self, other):
         if isinstance(other, CC_Dict):
             return self.dict == other.dict and self.type == other.type and self.key == other.key and self.jsons == other.jsons
-        return self.dict == other
+        elif isinstance(other, dict):
+            return self.dict == other
+        else:
+            return False
     
     def get(self, key, default=None):
         return self.dict.get(key, default)
@@ -107,3 +110,6 @@ class CC_Dict:
         copy_ccd.key = self.key
         copy_ccd.dict = self.dict.copy()
         return copy_ccd
+
+class definition_dict(dict):
+    

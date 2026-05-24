@@ -217,3 +217,28 @@ def test_copy(preload_data_canto_dict):
     d2 = d.copy()
     assert d == d2
 
+
+# Tests for the defintions fuzzy search
+
+def test_create_key_definition():
+    try:
+        d = CC_Dict("CANTO", "definitions")
+        definitions_dict = None
+        with open(d.jsons["definitions"], "r")  as j:
+            definitions_dict = json.load(j)
+        assert d.dict == definitions_dict
+        assert isinstance(d.dict, definition_dict)
+    except:
+        pytest.fail("\"definitions\" should be a valid key. No error should be thrown")
+    
+def test_search_found():
+    d = CC_Dict("CANTO", "definitions")
+    results = [{"traditional": "打爛咗",  "simplified": "打烂咗", "pinyin": "da3 lan4 zuo5", "jyutping": "daa2 laan6 zo2", 
+                    "definitions": ["to have shattered something [colloquial]"]},
+                {"traditional": "散晒",  "simplified": "散晒", "pinyin": "san4 shai4", "jyutping": "csaan2 saai3ung1", 
+                    "definitions": ["shattered", "exhausted", "very tired [colloquial]"]}]
+    
+    assert d["shatter"] == results
+    
+    
+
