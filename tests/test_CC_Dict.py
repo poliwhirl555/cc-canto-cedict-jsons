@@ -98,7 +98,7 @@ def test_get_data(preload_data):
                     else:
                         assert dk == sample[k]
                     break
-                
+
             else: # If keyless (None), just check if it's a list and entries contain the proper keys
                 assert type(data) is list
                 for dk in data[0].keys():
@@ -241,8 +241,8 @@ def test_search_found():
     d = CC_Dict("CANTO", "definitions")
     results = [{"traditional": "打爛咗",  "simplified": "打烂咗", "pinyin": "da3 lan4 zuo5", "jyutping": "daa2 laan6 zo2", 
                     "definitions": ["to have shattered something [colloquial]"]},
-                {"traditional": "散晒",  "simplified": "散晒", "pinyin": "san4 shai4", "jyutping": "csaan2 saai3ung1", 
-                    "definitions": ["shattered", "exhausted", "very tired [colloquial]"]}]
+                {"traditional": "散晒",  "simplified": "散晒", "pinyin": "san4 shai4", "jyutping": "saan2 saai3", 
+                    "definitions": ["shattered; exhausted; very tired [colloquial]"]}]
     
     assert d["shatter"] == results
     
