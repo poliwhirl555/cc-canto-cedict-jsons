@@ -240,5 +240,7 @@ def test_search_found():
     
     assert d["shatter"] == results
     
-    
+def test_search_not_found():
+    d = CC_Dict("CANTO", "definitions")
+    assert d["something definitely not in the dictionary"] == []
 
