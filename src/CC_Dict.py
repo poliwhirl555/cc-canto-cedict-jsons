@@ -120,10 +120,10 @@ class definition_dict(dict):
     # Only overrides __getitem__ and get, everything else should work as normal
     def __getitem__(self, key):
         # This should technically work but it's actually insane and impossible to read
-        # Basically, accumulate all values v for all definitions, value pairs in self.dict where key is in any of the definitions in definitions 
+        # Basically, accumulate all entries for all definitions, entry pairs in the dict that is self where key is in any of the definitions in definitions 
         # Need the ast.literal_eval() as lists are not hashable so cannot be used as keys, thus I turned them into strings to make them hashable.
         # This might utterly tank performance, who knows, this is a jank feature anyways
-        return [v for k,v in zip(self, self.values()) if any(key in definition for definition in ast.literal_eval(k))]
+        return [entry for definitions,entry in zip(self, self.values()) if any(key in definition for definition in ast.literal_eval(definitions))]
     
     def get(self, key, default):
         return self[key]
