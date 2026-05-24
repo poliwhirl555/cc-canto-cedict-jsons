@@ -2,6 +2,7 @@ import os
 import inspect
 import pathlib
 import json
+import ast
 from parser import DICT_TYPES, VALID_KEYS
 from update import load_latest_data, raws_exists, jsons_exists, INTERNAL_NAME, get_jsons
 
@@ -120,7 +121,9 @@ class definition_dict(dict):
     def __getitem__(self, key):
         # This should technically work but it's actually insane and impossible to read
         # Basically, accumulate all values v for all definitions, value pairs in self.dict where key is in any of the definitions in definitions 
-        return [v for k,v in zip(self.dict, self.dict.values()) if any(key in definition for definition in k)]
+        # Need the ast.literal_eval() as lists are not hashable so cannot be used as keys, thus I turned them into strings to make them hashable.
+        # This might utterly tank performance, who knows, this is a jank feature anyways
+        return [v for k,v in zip(self, self.values()) if any(key in definition for definition in ast.literal_eval(k))]
     
     def get(self, key, default):
         return self[key]

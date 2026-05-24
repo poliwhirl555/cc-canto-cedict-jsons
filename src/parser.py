@@ -53,6 +53,22 @@ def parse(filepath, dict_type, key = None):
                 entry["jyutping"] = jyutping
 
             entry["definitions"] = definitions
+
+            storage = None
+            if not key == None and isinstance(entry[key], list):
+                # Temporarily convert the definitions list to a string so 
+                # it can be entered in as the key without having to change too much code.
+                # Will change back later
+                storage = entry[key]
+                entry[key] = str(entry[key])
+                # Temporarily convert the
+                # entry_key = str(entry[key])
+                # if not entries.get(entry_key):
+                #     entries[entry_key] = entry
+                # elif type(entries[entry_key]) is list:
+                #     entries[entry_key].append(entry)
+                # else:
+                #     entries[entry_key] = [entries[entry_key], entry]
             
             # Block to handle hanzi with multiple pronounciations and entries, like 重, which has 4 entries, 
             # or if sorting by non-default keys, anything that ends up with the same key
@@ -66,6 +82,10 @@ def parse(filepath, dict_type, key = None):
                 entries[entry[key]].append(entry)
             else:
                 entries[entry[key]] = [entries[entry[key]], entry]
+
+            # Restore the definition as list if it was changed
+            if storage:
+                entry[key] = storage
 
     return entries
 
