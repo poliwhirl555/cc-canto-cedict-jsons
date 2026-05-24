@@ -87,12 +87,18 @@ def test_get_data(preload_data):
                 # Single iteration for loop to get any item from the dict
                 for dk in data:
                     sample = data[dk]
+
+                    # As the data key for "definitions" keyed jsons has been turned to a string, need to turn it back for the comparison to work.
+                    if k == "definitions":
+                        dk = ast.literal_eval(dk)
+                    
                     if type(sample) is list:
                         # Check if the dictionary key dk for a particular entry matches the entry's value when accessed with k
                         assert dk == sample[0][k]
                     else:
                         assert dk == sample[k]
                     break
+                
             else: # If keyless (None), just check if it's a list and entries contain the proper keys
                 assert type(data) is list
                 for dk in data[0].keys():
