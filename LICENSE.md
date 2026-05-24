@@ -8,16 +8,23 @@ This project is provided under the [Creative Commons Attribution-ShareAlike 4.0 
 
 The data for CC-CEDICT is provided under the [Creative Commons Attribution-ShareAlike 4.0 International License](https://creativecommons.org/licenses/by-sa/4.0/), copyright (c) 2026 MDBG, in both unmodified and jsonified formats. The original data can be downloaded from [here](https://www.mdbg.net/chinese/dictionary?page=cedict)
 
-Below are a list of contributors from their [website](https://cc-cedict.org/wiki)
-goldyn_chyld - Matic Kavcic
-richwarm - Richard Warmington
-vermillon - Julien Baley
-ycandau - Yves Candau
-feilipu
-and the editors who wish to remain anonymous
+<br>
+<br>
 
+Below are a list of contributors from their [website](https://cc-cedict.org/wiki):  
+goldyn_chyld - Matic Kavcic <br>
+richwarm - Richard Warmington <br>
+vermillon - Julien Baley <br>
+ycandau - Yves Candau <br>
+feilipu <br>
+and the editors who wish to remain anonymous <br>
+<br>
+<br>
 The data for CC-CANTO is provided under the [Creative Commons Attribution-ShareAlike 3.0 license](https://creativecommons.org/licenses/by-sa/3.0/), 
 copyright (c) 2015-16 Pleco Software Incorporated, in both unmodified and jsonified formats. The original data can be found from their website [here](https://cantonese.org/download.html)
+
+<br>
+<br>
 
 The very initial code for the basic parser was based off of code from:
 
