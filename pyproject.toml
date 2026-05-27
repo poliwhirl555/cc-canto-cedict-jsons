@@ -1,0 +1,27 @@
+[build-system]
+requires = ["hatchling >= 1.26"]
+build-backend = "hatchling.build"
+
+[project]
+name = "py_cc_dicts"
+version = "1.0.0"
+authors = [
+  { name="poliwhirl555", email="lesterlinproject@gmail.com" },
+]
+description = "A library for creating JSONs and accessing the data for the CC-Canto and CC-CEDICT open source Chinese dictionaries."
+readme = "README.md"
+requires-python = ">=3.9"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Topic :: Education"
+    "Topic :: File Formats :: JSON"
+]
+license = "	CC-BY-SA-4.0 AND CC-BY-SA-3.0"
+license-files = ["LICEN[CS]E*"]
+dependencies = [
+  # Need to figure out dependencies
+]
+
+[project.urls]
+Homepage = "https://github.com/pypa/sampleproject"
+Issues = "https://github.com/pypa/sampleproject/issues"
