@@ -8,3 +8,15 @@ Things to Write
 
 - Things I might add in the future
     - Helper functions for dealing with data (A function that takes a list of entries that have the same key and strips out the surnames)
+
+
+The data for CC-CEDICT and CC-Canto, preprocessed into keyed hashmap JSONs for programmatic convenience, along with a Python library to provide access to that data.
+
+Looking online, I've only found parsers for the data of CC- (and none for CC-Canto) in varying languages, but not the data itself preprocessed, which can be annoying to deal with as you have to figure out how to install it, so I created this project to provide that pre-processed data, as a variety of keyed hashmaps. As well, spawning off this project is also a Python library for generating and updating these JSONs, along with accessing the data, although that second part is probably a dime a dozen.
+
+Each JSON file is affixed with "key_[something]" which denotes which field the hashmap uses as the key. The valid key fields are simplified, traditional, pinyin, jyutping (for CC-Canto), definition (a python list saved as a string), and none, which is a simple list of the dictionary entries.
+
+Provided as well are the raw zips for the data and the text files, dated to allow you to check for recency. Maye someday I'll get it to update monthly, if I can figure out how to get Github Actions to work for that.
+
+### The Python Library
+
