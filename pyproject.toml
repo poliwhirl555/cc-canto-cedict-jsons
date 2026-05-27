@@ -19,8 +19,9 @@ classifiers = [
 license = "	CC-BY-SA-4.0 AND CC-BY-SA-3.0"
 license-files = ["LICEN[CS]E*"]
 dependencies = [
-  # Need to figure out dependencies
+  requests>=2.32.4
 ]
+keywords = ["JSON", "Cantonese", "Mandarin", "CC-CEDICT", "CC-Canto", "parser", "dictionary"]
 
 [project.urls]
 Homepage = "https://github.com/pypa/sampleproject"
