@@ -4,25 +4,39 @@ build-backend = "hatchling.build"
 
 [project]
 name = "py_cc_dicts"
-version = "1.0.0"
+version = "1.0.2"
 authors = [
   { name="poliwhirl555", email="lesterlinproject@gmail.com" },
 ]
 description = "A library for creating JSONs and accessing the data for the CC-Canto and CC-CEDICT open source Chinese dictionaries."
-readme = "README.md"
-requires-python = ">=3.9"
+readme = "pypi_README.md"
+requires-python = ">=3.8"
 classifiers = [
     "Programming Language :: Python :: 3",
-    "Topic :: Education"
+    "Topic :: Education",
     "Topic :: File Formats :: JSON"
 ]
 license = "	CC-BY-SA-4.0 AND CC-BY-SA-3.0"
 license-files = ["LICEN[CS]E*"]
 dependencies = [
-  requests>=2.32.4
+  "requests>=2.32.4"
 ]
 keywords = ["JSON", "Cantonese", "Mandarin", "CC-CEDICT", "CC-Canto", "parser", "dictionary"]
+include = [
+  "py_cc_dicts/*.py",
+  "/tests",
+  "*.json",
+  "*.txt",
+  "*.u8"
+]
+exclude = [
+  "*.anki2"
+]
 
 [project.urls]
 Homepage = "https://github.com/pypa/sampleproject"
 Issues = "https://github.com/pypa/sampleproject/issues"
+
+[tool.hatch.envs.hatch-test]
+default-args = ["tests"]
+extra-args = ["-vv"]
