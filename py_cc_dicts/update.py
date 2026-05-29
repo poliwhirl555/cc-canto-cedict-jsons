@@ -6,7 +6,7 @@ import os
 import sys
 from zipfile import *
 from pathlib import Path
-from parser import DICT_TYPES, VALID_KEYS, parse
+from py_cc_dicts.parser import DICT_TYPES, VALID_KEYS, parse
 
 
 GET_LINKS = {DICT_TYPES[0]: "https://www.mdbg.net/chinese/export/cedict/cedict_1_0_ts_utf-8_mdbg.zip",

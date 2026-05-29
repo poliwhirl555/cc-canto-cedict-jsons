@@ -3,22 +3,27 @@ import inspect
 import pathlib
 import json
 import ast
-from parser import DICT_TYPES, VALID_KEYS
-from update import load_latest_data, raws_exists, jsons_exists, INTERNAL_NAME, get_jsons
+from py_cc_dicts.parser import DICT_TYPES, VALID_KEYS
+from py_cc_dicts.update import load_latest_data, raws_exists, jsons_exists, INTERNAL_NAME, get_jsons
 
 class CC_Dict:
     data_dir = pathlib.Path(inspect.getabsfile(load_latest_data)).parent.parent # Two parent levels because that's the current structure. Might have to modify this in the future, or make it a property of update.
-    def __init__(self, type, key = None, update = False):
+    def __init__(self, type, key = None, dir = None, update = False):
         self.type = ""
         if "mandarin" in type.lower() or DICT_TYPES[0].lower() in type.lower():
             self.type = DICT_TYPES[0]
         elif DICT_TYPES[1].lower() in type.lower():
             self.type = DICT_TYPES[1]
 
+        if dir:
+            self.data_dir = dir
+        else:
+            self.data_dir = CC_Dict.data_dir
+
         self.jsons = {}
-        if update or not raws_exists(str(CC_Dict.data_dir)) or not jsons_exists(str(CC_Dict.data_dir)):
+        if update or not raws_exists(str(self.data_dir)) or not jsons_exists(str(self.data_dir)):
             # Have to temporarily store the variable in a class attribute or else the variable will just fall out of scope and vanish
-            self.jsons = load_latest_data(str(CC_Dict.data_dir))
+            self.jsons = load_latest_data(str(self.data_dir))
             self.jsons = self.jsons_path_list_to_keyed_dict(self.jsons)
         else: # Fetch the existing jsons from the expected data directory
             self.jsons = map(pathlib.Path, get_jsons(self.data_dir, self.type))
