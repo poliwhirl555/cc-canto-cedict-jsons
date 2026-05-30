@@ -22,12 +22,12 @@ class CC_Dict:
         Docstring for __init__
 
         Args:
-            type (str): The type of dictionary this CC_Dict represents, that defines which JSONs and data the class functions give you access to.
-            One of the valid dict types as defined in DICT_TYPES in parser.py, or you can enter "Mandarin" or "Cantonese".
+            type (str): The type of dictionary this CC_Dict represents, that defines which JSONs and data the class functions give you access to. 
+                One of the valid dict types as defined in DICT_TYPES in parser.py, or you can enter "Mandarin" or "Cantonese".
             key (str): One of the valid keys for the dictionary type *type*, as defined in parser.py. 
-            If provided, a dict keyed to this key type containing the dictionary data will be preloaded into this object, allowing for easy access via standard dict syntax.
+                If provided, a dict keyed to this key type containing the dictionary data will be preloaded into this object, allowing for easy access via standard dict syntax.
             data_dir (str): The directory as a string to check for the raw dictionary data and JSONs, and where to download them if they don't exist. 
-            Defaults to current working directory if none provided, unless called one directory up from where this script is located, in which case defaults to that directory. (This is for Github presentation purposes, and should never matter in day to day use)
+                Defaults to current working directory if none provided, unless called one directory up from where this script is located, in which case defaults to that directory. (This is for Github presentation purposes, and should never matter in day to day use)
             update (bool): Whether to forcibly update the data for the dictionaries if already downloaded.
         """
         self.type = ""
