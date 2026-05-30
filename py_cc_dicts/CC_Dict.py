@@ -7,24 +7,24 @@ from py_cc_dicts.parser import DICT_TYPES, VALID_KEYS
 from py_cc_dicts.update import load_latest_data, raws_exists, jsons_exists, INTERNAL_NAME, get_jsons
 
 class CC_Dict:
-    load_latest_dir = pathlib.Path(inspect.getabsfile(load_latest_data))
-    data_dir = load_latest_dir.parent.parent # Two parent levels because that's the current structure. One to strip off the file, one to go one folder up. Might have to modify this in the future, or make it a property of update.
-    def __init__(self, type, key = None, dir = None, update = False):
+    load_latest_dir = pathlib.Path(inspect.getabsfile(load_latest_data)).parent # Need the parent to strip off the update.py part of the path
+    data_dir = load_latest_dir.parent # One parent level because that's the current structure. Might have to modify this in the future, or make it a property of update.
+    def __init__(self, type, key = None, data_dir = None, update = False):
         self.type = ""
         if "mandarin" in type.lower() or DICT_TYPES[0].lower() in type.lower():
             self.type = DICT_TYPES[0]
         elif DICT_TYPES[1].lower() in type.lower():
             self.type = DICT_TYPES[1]
 
-        if dir:
-            self.data_dir = dir
-        # elif pathlib.Path.cwd == CC_Dict.load_latest_dir: 
-        #     # A bit of a trick to avoid having to refactor tests. If the script is called from the same dir as the dir of load_latest_data()
-        #     # then the script knows its being called in the package and sets the data dir to the folder two layers up.
-        #     self.data_dir = CC_Dict.data_dir
-        else:
-            # self.data_dir = pathlib.Path.cwd
+        if data_dir:
+            self.data_dir = data_dir
+        elif pathlib.Path.cwd == CC_Dict.data_dir: 
+            # A trick to avoid having to refactor tests and make this work on Github.
+            # If the script is called specifically from the place you'd expect data to be for the Github page (one directory above the package),
+            # then save data to that directory by default. (This will never happen if installed as a package due to the directory being buried in the Python 3.8 folder)
             self.data_dir = CC_Dict.data_dir
+        else: # save data to the same folder as update.py, i.e. the package folder
+            self.data_dir = CC_Dict.load_latest_dir.parent
 
         self.jsons = {}
         if update or not raws_exists(str(self.data_dir)) or not jsons_exists(str(self.data_dir)):
