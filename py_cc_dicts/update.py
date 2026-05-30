@@ -17,6 +17,14 @@ INTERNAL_NAME = {DICT_TYPES[0]: "cedict_ts.u8",
                  DICT_TYPES[1]: "cccanto-webdist.txt"}
 
 def load_latest_data(json_end_dir = ""):
+    """
+    Load the latest raw data from the dictionary's websites and generate keyed JSON files for every valid key for each dictionary.
+
+    Old data is deleted from, and JSONs genearted are saved to, json_end_dir, or the current working directory if none provided.
+
+    Args:
+        json_end_dir: str path to the directory to delete old data from and save the new created JSON files to. Current working directory if none provided.
+    """
     # A very lazy way of allowing the data to be dumped to a different directory, by changing the working directory and then changing it back after
     curr_dir = os.getcwd()
     if json_end_dir:
@@ -31,8 +39,11 @@ def load_latest_data(json_end_dir = ""):
     return json_paths
     
 
-# Fetch the raw zip files from the CC-CEDICT and CC_CANTO website
+# Fetch the raw zip files from the CC-CEDICT and CC-CANTO website
 def fetch_raw():
+    """
+    Send a GET request to the websites for CC-CEDICT and CC-Canto to download zip files containing the latest raw data, and save it to the current working directory.
+    """
     raw_paths = []
     for dt in DICT_TYPES:
         current_time = time.strftime("%Y-%m-%d_%H:%M_%Z", time.gmtime())
@@ -51,8 +62,15 @@ def clean_raws(dir = ""):
     for f in get_raws(dir):
         os.remove(f)
 
-# for each possible key, including none, generate the json for that key and save it to repository directory
-def generate_jsons(input_file_path):
+# For each possible key, including none, generate the json for that key and save it to repository directory
+def generate_jsons(input_file_path) -> list[Path]:
+    """
+    For each CC-CEDICT/CC-Canto raw zip file in directory input_file_path, generate JSONs keyed to each valid key and save it to the current working directory. 
+    Returns a list of pathlib.Path objects pointing to the new JSON files.
+
+    Args:
+        input_file_path: str path to directory containing the CC-CEDICT/CC-Canto zip files.
+    """
     # Figure out which type of dict data we're working with
     dict_type = None
     for dt in DICT_TYPES:
@@ -101,6 +119,13 @@ def raws_exists(dir = ""):
 
 # Get the data jsons from dir for dictionary type dict_type, if they exist
 def get_jsons(dir = "", dict_type = ""):
+    """
+    Search dir for the generated JSON files of the input dict_type, or for both types if none provided, and return the paths as a list of strings.
+
+    Args:
+        dir: str path to directory to search. If none provided, searches current working directory.
+        dict_type: A string listed in DICT_TYPES in parser.py, to denote which dictionary type to search for. Both searched by default.
+    """
     curr_dir = None
     if dir:
         curr_dir = os.getcwd()
@@ -118,6 +143,13 @@ def get_jsons(dir = "", dict_type = ""):
     return jsons
 
 def get_raws(dir = "", dict_type = ""):
+    """
+    Search dir for the downloaded raw zip files of the input dict_type, or for both types if none provided, and return the paths as a list of strings.
+
+    Args:
+        dir: str path to directory to search. If none provided, searches current working directory.
+        dict_type: A string listed in DICT_TYPES in parser.py, to denote which dictionary type to search for. Both searched by default.
+    """
     curr_dir = None
     if dir:
         curr_dir = os.getcwd()

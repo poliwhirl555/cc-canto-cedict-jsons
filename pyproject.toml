@@ -26,10 +26,8 @@ include = [
   "py_cc_dicts/*.py",
   "/tests",
   "*.json",
-  "*.txt",
-  "*.u8"
+  "*.zip",
 ]
-
 
 [project.urls]
 Homepage = "https://github.com/pypa/sampleproject"

@@ -4,7 +4,7 @@ import os
 import glob
 import sys
 sys.path.insert(0, "/home/poliwhirl555/projects/py_cc_cedict_canto_json/py_cc_dicts") # This seems to be the only way to make things work, for some reason
-from update import * 
+from py_cc_dicts.update import * 
     
 
 # def test_print_path():
