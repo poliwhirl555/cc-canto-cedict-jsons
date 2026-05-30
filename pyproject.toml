@@ -29,9 +29,7 @@ include = [
   "*.txt",
   "*.u8"
 ]
-exclude = [
-  "*.anki2"
-]
+
 
 [project.urls]
 Homepage = "https://github.com/pypa/sampleproject"
