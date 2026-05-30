@@ -16,11 +16,12 @@ FILE_PREFIXES = {DICT_TYPES[0]: "cedict_1_0_ts_utf-8_mdbg_",
 INTERNAL_NAME = {DICT_TYPES[0]: "cedict_ts.u8",
                  DICT_TYPES[1]: "cccanto-webdist.txt"}
 
-def load_latest_data(json_end_dir = ""):
+def load_latest_data(json_end_dir = "") -> list[Path]:
     """
     Load the latest raw data from the dictionary's websites and generate keyed JSON files for every valid key for each dictionary.
 
     Old data is deleted from, and JSONs genearted are saved to, json_end_dir, or the current working directory if none provided.
+    Returns a list of pathlib.Paths to the newly created JSONs.
 
     Args:
         json_end_dir: str path to the directory to delete old data from and save the new created JSON files to. Current working directory if none provided.

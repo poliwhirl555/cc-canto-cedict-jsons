@@ -127,8 +127,15 @@ class CC_Dict:
         return copy_ccd
 
 class definition_dict(dict):
-    # A special class to do a probably very inefficient search of all definitions for the inputted search key.
-    # Only overrides __getitem__ and get, everything else should work as normal
+    """
+    A special class to allow for a probably inefficient search of definition keys when using the subscript access operator.
+
+    Overrides __getitem__ and get(), transforming the argument in subscript access into a basic search for all definitions that contain the input string. All other dictionary functions should work as normal.
+    
+    Example: For d = definitions_dict, d["something"] would search all the keys of the dict (which should be strings) and return a list of entries whose keys contained the string "something"
+
+    *Not designed for use outside of the class CC_Dict*
+    """
     def __getitem__(self, key):
         # This should technically work but it's actually insane and impossible to read
         # Basically, accumulate all entries for all definitions, entry pairs in the dict that is self where key is in any of the definitions in definitions 
