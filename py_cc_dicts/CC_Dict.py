@@ -7,9 +7,29 @@ from py_cc_dicts.parser import DICT_TYPES, VALID_KEYS
 from py_cc_dicts.update import load_latest_data, raws_exists, jsons_exists, INTERNAL_NAME, get_jsons
 
 class CC_Dict:
+    """
+    Docstring for CC_Dict
+
+    :var load_latest_dir: Description
+    :vartype load_latest_dir: Path
+    :var data_dir: Description
+    :vartype data_dir: Path
+    """
     load_latest_dir = pathlib.Path(inspect.getabsfile(load_latest_data)).parent # Need the parent to strip off the update.py part of the path
     data_dir = load_latest_dir.parent # One parent level because that's the current structure. Might have to modify this in the future, or make it a property of update.
     def __init__(self, type, key = None, data_dir = None, update = False):
+        """
+        Docstring for __init__
+
+        Args:
+            type (str): The type of dictionary this CC_Dict represents, that defines which JSONs and data the class functions give you access to.
+            One of the valid dict types as defined in DICT_TYPES in parser.py, or you can enter "Mandarin" or "Cantonese".
+            key (str): One of the valid keys for the dictionary type *type*, as defined in parser.py. 
+            If provided, a dict keyed to this key type containing the dictionary data will be preloaded into this object, allowing for easy access via standard dict syntax.
+            data_dir (str): The directory as a string to check for the raw dictionary data and JSONs, and where to download them if they don't exist. 
+            Defaults to current working directory if none provided, unless called one directory up from where this script is located, in which case defaults to that directory. (This is for Github presentation purposes, and should never matter in day to day use)
+            update (bool): Whether to forcibly update the data for the dictionaries if already downloaded.
+        """
         self.type = ""
         if "mandarin" in type.lower() or DICT_TYPES[0].lower() in type.lower():
             self.type = DICT_TYPES[0]
@@ -128,7 +148,7 @@ class CC_Dict:
 
 class definition_dict(dict):
     """
-    A special class to allow for a probably inefficient search of definition keys when using the subscript access operator.
+    A special class extending dict to allow for a probably inefficient search of definition keys when using the subscript access operator.
 
     Overrides __getitem__ and get(), transforming the argument in subscript access into a basic search for all definitions that contain the input string. All other dictionary functions should work as normal.
     
