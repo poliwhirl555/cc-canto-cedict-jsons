@@ -6,14 +6,17 @@ import ast
 from py_cc_dicts.parser import DICT_TYPES, VALID_KEYS
 from py_cc_dicts.update import load_latest_data, raws_exists, jsons_exists, INTERNAL_NAME, get_jsons
 
-class CC_Dict:
+class CC_Dict(dict):
     """
-    Docstring for CC_Dict
+    Provides access to paths, files and the data for keyed CC-CEDICT and CC-Canto JSONs.
 
-    :var load_latest_dir: Description
-    :vartype load_latest_dir: Path
-    :var data_dir: Description
-    :vartype data_dir: Path
+    Has methods to access the raw data and JSON file paths, alongside being a container for dict that allows access to the keyed dictionary data for the chosen key.
+    There is probably a better way to use this that takes advantage of class extension, but I'm too comitted to this structure now.
+
+    Attributes:
+        load_latest_dir (Path): Description
+        data_dir (Path): Description
+        
     """
     load_latest_dir = pathlib.Path(inspect.getabsfile(load_latest_data)).parent # Need the parent to strip off the update.py part of the path
     data_dir = load_latest_dir.parent # One parent level because that's the current structure. Might have to modify this in the future, or make it a property of update.
@@ -65,6 +68,7 @@ class CC_Dict:
         elif self.key == "definitions":
             # Need to get a way to get the definition dict somehow
             self.dict = definition_dict(self.get_data(self.key))
+        super().__init__(self.dict)
             
     
     def get_data(self, key = None):
