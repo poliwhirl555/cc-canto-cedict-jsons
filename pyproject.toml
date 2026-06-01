@@ -10,7 +10,7 @@ authors = [
 ]
 description = "A library for creating JSONs and accessing the data for the CC-Canto and CC-CEDICT open source Chinese dictionaries."
 readme = "pypi_README.md"
-requires-python = ">=3.8"
+requires-python = ">=3.10.12"
 classifiers = [
     "Programming Language :: Python :: 3",
     "Topic :: Education",
