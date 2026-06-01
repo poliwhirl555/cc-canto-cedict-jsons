@@ -95,7 +95,7 @@ def generate_jsons(input_file_path) -> list[Path]:
         truncated_filename = filename[:filename.rindex(".")]
         storage_name = truncated_filename + "_key_" + str(key) + "_" + current_time +".json"
         with open(storage_name, "w") as out_file:
-            # ensure_ascii as false makes the Hanzi human readable, but hopefully it doesn't cause any problems
+            # ensure_ascii as false makes the Hanzi human readable. Hopefully it doesn't cause any problems elsewhere.
             json.dump(dict_data, out_file, ensure_ascii = False, indent = 4)
             output_paths.append(Path(storage_name))
     return output_paths
