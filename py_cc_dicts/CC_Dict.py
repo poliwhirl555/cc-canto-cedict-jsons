@@ -11,7 +11,7 @@ class CC_Dict(dict):
     Provides access to paths, files and the data for keyed CC-CEDICT and CC-Canto JSONs.
 
     Has methods to access the raw data and JSON file paths, alongside being a container for dict that allows access to the keyed dictionary data for the chosen key.
-    There is probably a better way to use this that takes advantage of class extension, but I'm too comitted to this structure now.
+    Extends dict for polymorphism purposes and to enable non passed through dict methods. However, the current structure has to be maintained in order to allow for the definition fuzzy search.
 
     Attributes:
         load_latest_dir (Path): Description
@@ -22,7 +22,9 @@ class CC_Dict(dict):
     data_dir = load_latest_dir.parent # One parent level because that's the current structure. Might have to modify this in the future, or make it a property of update.
     def __init__(self, type, key = None, data_dir = None, update = False):
         """
-        Docstring for __init__
+        Construct a CC_Dict of the provided dictionary *type*.
+
+        Optional arguments allow for this object to access the keyed data for the provided *key* via dictionary access syntax.
 
         Args:
             type (str): The type of dictionary this CC_Dict represents, that defines which JSONs and data the class functions give you access to. 
@@ -78,6 +80,9 @@ class CC_Dict(dict):
         return data
     
     def get_raw_path(self):
+        """
+        Produce the path to the raw txt/u8 dictionary data files.
+        """
         return str(CC_Dict.data_dir) + "/" + INTERNAL_NAME[self.type]
     
     # TODO: Maybe add functions to dump or copy json files to other directories.
@@ -86,6 +91,14 @@ class CC_Dict(dict):
     # Input: A list of Path objects to json
     # Output: A list of Jsons
     def jsons_path_list_to_keyed_dict(self, json_paths):
+        """
+        Converts a list of Paths to dictionary data JSON files to a list of dicts with the JSON data.
+
+        Utility function.
+
+        Args:
+            json_paths (list[Path]): A list of pathlib.Path objects to dictionary data JSON files.
+        """
         keyed_dict = {}
         for f in json_paths:
             if self.type.lower() in f.stem.lower():

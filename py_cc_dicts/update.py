@@ -124,8 +124,8 @@ def get_jsons(dir = "", dict_type = ""):
     Search dir for the generated JSON files of the input dict_type, or for both types if none provided, and return the paths as a list of strings.
 
     Args:
-        dir: str path to directory to search. If none provided, searches current working directory.
-        dict_type: A string listed in DICT_TYPES in parser.py, to denote which dictionary type to search for. Both searched by default.
+        dir (str): str path to directory to search. If none provided, searches current working directory.
+        dict_type (str): A string listed in DICT_TYPES in parser.py, to denote which dictionary type to search for. Both searched by default.
     """
     curr_dir = None
     if dir:
@@ -148,8 +148,8 @@ def get_raws(dir = "", dict_type = ""):
     Search dir for the downloaded raw zip files of the input dict_type, or for both types if none provided, and return the paths as a list of strings.
 
     Args:
-        dir: str path to directory to search. If none provided, searches current working directory.
-        dict_type: A string listed in DICT_TYPES in parser.py, to denote which dictionary type to search for. Both searched by default.
+        dir (str): str path to directory to search. If none provided, searches current working directory.
+        dict_type (str): A string listed in DICT_TYPES in parser.py, to denote which dictionary type to search for. Both searched by default.
     """
     curr_dir = None
     if dir:
