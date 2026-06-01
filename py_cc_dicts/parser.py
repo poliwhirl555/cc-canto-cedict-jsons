@@ -1,8 +1,4 @@
-# At this point, might as well create JSON and SQLite database version of the data, with an update script, so that
-# I don't have to deal with this every time I want to access the data programmatically 
-
-import sqlite3
-from typing import List
+# import sqlite3
 
 # These being in capitals causes so much grief I should really just change them to lowercase
 DICT_TYPES = ["CEDICT", "CANTO"]
@@ -67,21 +63,13 @@ def parse(filepath, dict_type, key = None):
             entry["definitions"] = definitions
 
             storage = None
-            if not key == None and isinstance(entry[key], list):
+            if key == "definitions":
                 # Temporarily convert the definitions list to a string so 
-                # it can be entered in as the key without having to change too much code.
-                # Will change back later
+                # it can be used as a dictionary key without having to change too much code.
+                # As lists are not serializable.
                 storage = entry[key]
                 entry[key] = str(entry[key])
-                # Temporarily convert the
-                # entry_key = str(entry[key])
-                # if not entries.get(entry_key):
-                #     entries[entry_key] = entry
-                # elif type(entries[entry_key]) is list:
-                #     entries[entry_key].append(entry)
-                # else:
-                #     entries[entry_key] = [entries[entry_key], entry]
-            
+                
             # Block to handle hanzi with multiple pronounciations and entries, like 重, which has 4 entries, 
             # or if sorting by non-default keys, anything that ends up with the same key
             # Converts into bucket if something hashes into the same key, else add normally
@@ -95,15 +83,12 @@ def parse(filepath, dict_type, key = None):
             else:
                 entries[entry[key]] = [entries[entry[key]], entry]
 
-            # Restore the definition as list if it was changed
+            # Restore the definition list back to being a list if it was changed
             if storage:
                 entry[key] = storage
 
     return entries
 
-# Input: CC-Canto file path, a key to use for the dictionary, one of "traditional", "simplified", "pinyin", "jyutping" or None
-# Output: A (k,v) map of v = dicts containing all the information in an entry, k = the inputed key 
-#           OR a list of all entries if inputted key is none
 def parse_cc_canto(filepath, key = "traditional") -> (list[dict] | dict):
     """
     Parse provided CC-Canto dictionary text file into a JSON dict keyed with input key.
