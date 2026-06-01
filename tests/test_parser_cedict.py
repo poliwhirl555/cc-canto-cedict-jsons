@@ -1,6 +1,3 @@
-import pytest
-import sys
-sys.path.insert(0, "/home/poliwhirl555/projects/py_cc_cedict_canto_json/py_cc_dicts")
 from py_cc_dicts.parser import parse_cc_cedict
 
 def test_single_entry_single_def_v2():

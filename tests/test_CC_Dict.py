@@ -1,9 +1,5 @@
 import pytest
-import sys
-import inspect
-import os
 from pathlib import Path
-sys.path.insert(0, "/home/poliwhirl555/projects/py_cc_cedict_canto_json/py_cc_dicts")
 from py_cc_dicts.CC_Dict import *
 from py_cc_dicts.parser import *
 from py_cc_dicts.update import *
