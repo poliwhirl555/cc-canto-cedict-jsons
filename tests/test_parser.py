@@ -1,6 +1,7 @@
 import pytest
 from py_cc_dicts.parser import parse
 
+
 def test_invalid_dict_type():
     with pytest.raises(ValueError) as exception_info:
         parse("tests/test-input-files/cc-canto/single line def.txt", "SOMETHING")

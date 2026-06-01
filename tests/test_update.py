@@ -1,12 +1,8 @@
 import pytest
-import requests
 import os
 import glob
 from py_cc_dicts.update import * 
-    
 
-# def test_print_path():
-#     assert sys.path == []
 
 def test_fetch_raw():
     raw_paths = fetch_raw()
