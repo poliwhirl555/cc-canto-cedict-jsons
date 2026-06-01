@@ -13,6 +13,18 @@ VALID_KEYS = {DICT_TYPES[0]: ["traditional", "simplified", "pinyin", "definition
 # https://github.com/aaronhktan/jyut-dict/blob/main/src/dictionaries/cedict/generate-readings.py
 
 def parse(filepath, dict_type, key = None):
+    """
+    Parse a dictionary text file into a keyed JSON.
+
+    Parse the given raw dictionary text file of dictionary type *dict_type* at *filepath* into a JSON file 
+    containing a dict of entries keyed with *key*, or a list of entries if *key* is none.
+
+    Args:
+        filepath (str): Path to txt or u8 file containing dictionary data to parse.
+        dict_type (str): Type of dictionary data being parsed. Must be valid, as defined in parser.py
+        key (str): Key of output dictionary. Must be valid for the dictionary type, as defined in parser.py
+    """
+
     # Check if dict_type is valid
     if dict_type not in DICT_TYPES:
         raise ValueError("Invalid dictionary type")
@@ -92,10 +104,29 @@ def parse(filepath, dict_type, key = None):
 # Input: CC-Canto file path, a key to use for the dictionary, one of "traditional", "simplified", "pinyin", "jyutping" or None
 # Output: A (k,v) map of v = dicts containing all the information in an entry, k = the inputed key 
 #           OR a list of all entries if inputted key is none
-def parse_cc_canto(filepath, key = "traditional"):
+def parse_cc_canto(filepath, key = "traditional") -> (list[dict] | dict):
+    """
+    Parse provided CC-Canto dictionary text file into a JSON dict keyed with input key.
+
+    Returns either a list of dicts cointaining dictionary entries if key is None, or a dict containing entries of (key, entry dict).
+
+    Args:
+        filepath (str): Path to text or u8 file containing raw dictionary data
+        key (str): Valid key as defined in parser.py, to key the output JSON with
+    """
     return parse(filepath, DICT_TYPES[1], key)
 
-def parse_cc_cedict(filepath, key = "traditional", surnames = True):
+def parse_cc_cedict(filepath, key = "traditional", surnames = True) -> (list[dict] | dict):
+    """
+    Parse provided CC-CEDICT dictionary text file into a JSON dict keyed with input key.
+
+    Returns either a list of dicts cointaining dictionary entries if key is None, or a dict containing entries of (key, entry dict).
+
+    Args:
+        filepath (str): Path to text or u8 file containing raw dictionary data
+        key (str): Valid key as defined in parser.py, to key the output JSON with
+        surnames (bool): _Unused_ For future implementation of the ability to exclude surname entries.
+    """
     # Might need to change this later if I add surname exclusion
     return parse(filepath, DICT_TYPES[0], key)
 

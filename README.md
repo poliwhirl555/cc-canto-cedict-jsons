@@ -79,4 +79,19 @@ clean_jsons(dir = "")
 
 ### _parser.py_
 
+#### Constants
+
+```
+DICT_TYPES = ["CEDICT", "CANTO"] # Valid Dictionary Codes, used throughout the program.
+VALID_KEYS = {DICT_TYPES[0]: ["traditional", "simplified", "pinyin", "definitions", None],
+               DICT_TYPES[1]: ["traditional", "simplified", "pinyin", "jyutping", "definitions", None]}  # Valid keys for CC_Dict, used for creation of JSONs
+```
+
 #### Core Functions
+
+```
+parse_cc_canto(filepath, key = "traditional")
+parse_cc_cedict(filepath, key = "traditional", surnames = True)
+
+# Parse the respective raw text file at *filepath* to produce a JSON with the given *key*. Surnames is currently unused.
+```
