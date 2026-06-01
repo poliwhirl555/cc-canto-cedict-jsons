@@ -34,9 +34,49 @@ The two modules you'll most likely work with are _update.py_ and _CC\_Dict.py_.
 
 ### _update.py_
 
+#### Core Functions
+
 ```
-# Loads the raws, the plain txt files and the JSONS for both CC-CEDICT and CC-Canto to json_end_dir, if provided, else to current working directory.
-load_latest_data(json_end_dir = "")
+load_latest_data() # Load to current working directory
+load_latest_data("*insert path here*") # Load to provided path
+
+# Load the raws, the plain txt files and the JSONS for both CC-CEDICT and CC-Canto to input directory, if provided, else to current working directory.
 ```
 
+```
+fetch_raw() 
 
+# Loads the zip files from the CC-CEDICT and CC-CANTO website to the *current working directory*
+```
+
+```
+generate_jsons("path to zip directory")
+
+# Takes the path to the directory where the raw data is stored and outputs the parsed JSONs for each key type to the *current working directory*
+```
+
+```
+get_jsons(dir = "", dict_type = "")
+get_raws(dir = "", dict_type = "")
+
+# Search dir for jsons or raw zip files of the input dict_type (CEDICT, CANTO), or both if no dict_type is provided, and returns a list of strings containing the paths to those files.
+```
+
+```
+jsons_exists(dir = "")
+raws_exists(dir = "")
+
+# Check if the jsons or raw zip files exist in directory *dir*, or the current working directory if none provided.
+```
+
+```
+clean_raws(dir = "")
+clean_jsons(dir = "")
+
+# Delete the raw zip files or JSONs from directory *dir*, or the current working directory if none provided.
+
+```
+
+### _parser.py_
+
+#### Core Functions
