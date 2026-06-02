@@ -16,7 +16,6 @@ class CC_Dict(dict):
     Attributes:
         load_latest_dir (Path): Description
         data_dir (Path): Description
-        
     """
     load_latest_dir = pathlib.Path(inspect.getabsfile(load_latest_data)).parent # Need the parent to strip off the update.py part of the path
     data_dir = load_latest_dir.parent # One parent level because that's the current structure. Might have to modify this in the future, or make it a property of update.
@@ -73,7 +72,16 @@ class CC_Dict(dict):
         super().__init__(self.dict)
             
     
-    def get_data(self, key = None):
+    def get_data(self, key = None) -> (dict |list[dict]):
+        """
+        Load the keyed data for the given *key* from the appropriate JSON file.
+
+        Args:
+            key (str): Valid key as defined in parser.py, for which the output dict of entries will be keyed by.
+
+        Returns:
+            (dict | list[dict]): dict if key entered is *not* None, otherwise, list (as the entries won't have a key)
+        """
         data = None
         with open(self.jsons[key]) as js:
             data = json.load(js)
@@ -87,9 +95,6 @@ class CC_Dict(dict):
     
     # TODO: Maybe add functions to dump or copy json files to other directories.
 
-    # Utility function
-    # Input: A list of Path objects to json
-    # Output: A list of Jsons
     def jsons_path_list_to_keyed_dict(self, json_paths):
         """
         Converts a list of Paths to dictionary data JSON files to a list of dicts with the JSON data.
