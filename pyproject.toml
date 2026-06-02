@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "py_cc_dicts"
-version = "1.0.3"
+version = "0.9.0"
 authors = [
   { name="poliwhirl555", email="lesterlinproject@gmail.com" },
 ]

@@ -1,15 +1,3 @@
-
-Things to Write
-
-- How to install
-- Examples on how core parts of the API work.
-    - Fetching data by traditional
-    - Fetching data by something that returns multiple entries
-
-- Things I might add in the future
-    - Helper functions for dealing with data (A function that takes a list of entries that have the same key and strips out the surnames)
-
-
 The data for CC-CEDICT and CC-Canto, preprocessed into keyed hashmap JSONs for programmatic convenience, along with a Python library to provide access to that data.
 
 Looking online, I've only found parsers in varying languages for the data of CC-EDICT (and none for CC-Canto) , but not the data itself preprocessed, which can be annoying to deal with as you have to figure out how to install it, so I created this project to provide that pre-processed data, as a variety of keyed hashmaps. As well, spawning off this project is also a Python library for generating and updating these JSONs, along with accessing the data, although that second part is probably a dime a dozen.

@@ -1,0 +1,116 @@
+A Python library to download, update, create and access keyed JSONs for the dictionaries CC-CEDICT and CC-Canto. 
+
+### Modules
+
+The core Python library consists of three files: _parser.py_, which handles parsing the raw text files sourced from the CC-CEDICT and CC-Canto websites and creating the JSONs; _update.py_, which handles fetching the data from those websites and calls functions from parser to generate the JSONS in the right place; and _CC\_Dict.py_, which provides the the class CC_Dict for easier programmatic access of the paths for the JSONs or the data in the JSONs.
+
+The two modules you'll most likely work with are _update.py_ and _CC\_Dict.py_.
+
+### _CC\_Dict.py_
+
+#### Core Class
+
+```
+c = CC_Dict("CANTO") # Creates a CC_Dict object that can access the JSONs and dictionary data for CC-Canto. 
+m = CC_Dict("CEDICT") # Creates a CC_Dict object that can access the JSONs and dictionary data for CC-CEDICT.
+# Loads the data from the dictionary website if not already existing into the current directory.
+```
+
+```
+c.get_data(key = None) 
+m.get_data(key = None)
+# Get the dictionary data keyed with input *key* as a dict
+
+c = CC_Dict("CANTO", data_dir = "some dir") # Creates a CC_Dict and stores the loaded data from the website at *data_dir* if it already does not exist in *data_dir*
+
+c = CC_Dict("CANTO", update = True)
+m = CC_Dict("CEDICT", data_dir = "some dir", update = True)
+# Forcefully update the data by downloading it from the website and regenerating the JSONs, even if they already exists in either the current directory if none entred, or at *data_dir*
+```
+
+```
+c2 = CC_Dict("CANTO", key = "traditional")
+# By default load the dictionary data keyed by the input key into the CC_Dict's internal dict
+
+c2.dict # Produces the dict keyed by traditional
+
+# You can also search with dict syntax.
+c2["貓"] # Produces the entry/entries for 貓
+
+c2.keys()
+c2.values()
+c2.items()
+# As CC_Dict is an extension of dict, common dict functions also work, although some might have unintended behaviour if key = "definitions" (see below)
+```
+
+```
+c3 = CC_Dict("CANTO", key = "definitions")
+# If the key given is "definitions", allows for the search of all definitions via dict syntax.
+
+c3["some string"]
+# This would search and return all definitions for at contain the exact substring "some string" (as definitions are stored as strings)
+```
+
+### _update.py_
+
+#### Core Functions
+
+```
+load_latest_data() # Load to current working directory
+load_latest_data("*insert path here*") # Load to provided path
+
+# Load the raws, the plain txt files and the JSONS for both CC-CEDICT and CC-Canto to input directory, if provided, else to current working directory.
+```
+
+```
+fetch_raw() 
+
+# Loads the zip files from the CC-CEDICT and CC-CANTO website to the *current working directory*
+```
+
+```
+generate_jsons("path to zip directory")
+
+# Takes the path to the directory where the raw data is stored and outputs the parsed JSONs for each key type to the *current working directory*
+```
+
+```
+get_jsons(dir = "", dict_type = "")
+get_raws(dir = "", dict_type = "")
+
+# Search dir for jsons or raw zip files of the input dict_type (CEDICT, CANTO), or both if no dict_type is provided, and returns a list of strings containing the paths to those files.
+```
+
+```
+jsons_exists(dir = "")
+raws_exists(dir = "")
+
+# Check if the jsons or raw zip files exist in directory *dir*, or the current working directory if none provided.
+```
+
+```
+clean_raws(dir = "")
+clean_jsons(dir = "")
+
+# Delete the raw zip files or JSONs from directory *dir*, or the current working directory if none provided.
+
+```
+
+### _parser.py_
+
+#### Constants
+
+```
+DICT_TYPES = ["CEDICT", "CANTO"] # Valid Dictionary Codes, used throughout the program.
+VALID_KEYS = {DICT_TYPES[0]: ["traditional", "simplified", "pinyin", "definitions", None],
+               DICT_TYPES[1]: ["traditional", "simplified", "pinyin", "jyutping", "definitions", None]}  # Valid keys for CC_Dict, used for creation of JSONs
+```
+
+#### Core Functions
+
+```
+parse_cc_canto(filepath, key = "traditional")
+parse_cc_cedict(filepath, key = "traditional", surnames = True)
+
+# Parse the respective raw text file at *filepath* to produce a JSON with the given *key*. Surnames is currently unused.
+```
