@@ -32,6 +32,51 @@ The core Python library consists of three files: _parser.py_, which handles pars
 
 The two modules you'll most likely work with are _update.py_ and _CC\_Dict.py_.
 
+### _CC\_Dict.py_
+
+#### Core Class
+
+```
+c = CC_Dict("CANTO") # Creates a CC_Dict object that can access the JSONs and dictionary data for CC-Canto. 
+m = CC_Dict("CEDICT") # Creates a CC_Dict object that can access the JSONs and dictionary data for CC-CEDICT.
+# Loads the data from the dictionary website if not already existing into the current directory.
+```
+
+```
+c.get_data(key = None) 
+m.get_data(key = None)
+# Get the dictionary data keyed with input *key* as a dict
+
+c = CC_Dict("CANTO", data_dir = "some dir") # Creates a CC_Dict and stores the loaded data from the website at *data_dir* if it already does not exist in *data_dir*
+
+c = CC_Dict("CANTO", update = True)
+m = CC_Dict("CEDICT", data_dir = "some dir", update = True)
+# Forcefully update the data by downloading it from the website and regenerating the JSONs, even if they already exists in either the current directory if none entred, or at *data_dir*
+```
+
+```
+c2 = CC_Dict("CANTO", key = "traditional")
+# By default load the dictionary data keyed by the input key into the CC_Dict's internal dict
+
+c2.dict # Produces the dict keyed by traditional
+
+# You can also search with dict syntax.
+c2["貓"] # Produces the entry/entries for 貓
+
+c2.keys()
+c2.values()
+c2.items()
+# As CC_Dict is an extension of dict, common dict functions also work, although some might have unintended behaviour if key = "definitions" (see below)
+```
+
+```
+c3 = CC_Dict("CANTO", key = "definitions")
+# If the key given is "definitions", allows for the search of all definitions via dict syntax.
+
+c3["some string"]
+# This would search and return all definitions for at contain the exact substring "some string" (as definitions are stored as strings)
+```
+
 ### _update.py_
 
 #### Core Functions
