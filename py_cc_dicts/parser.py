@@ -2,10 +2,9 @@
 
 # These being in capitals causes so much grief I should really just change them to lowercase
 DICT_TYPES = ["CEDICT", "CANTO", "READINGS"]
-VALID_KEYS = {DICT_TYPES[0]: ["traditional", "simplified", "pinyin", "jyutping", "definitions", None],
+VALID_KEYS = {DICT_TYPES[0]: ["traditional", "simplified", "pinyin", "definitions", None],
                 DICT_TYPES[1]: ["traditional", "simplified", "pinyin", "jyutping", "definitions", None],
                 DICT_TYPES[2]: ["traditional", "simplified", "pinyin", None]}
-readings_dict = {}
 
 # Parsing code based on code in Jyut Dictionary
 # https://github.com/aaronhktan/jyut-dict/blob/main/src/dictionaries/cedict/generate-readings.py
