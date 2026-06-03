@@ -36,16 +36,50 @@ def load_latest_data(json_end_dir = "") -> list[Path]:
     clean_raws()
     clean_jsons()
     raw_paths = fetch_raw()
-    json_paths = []
+    dict_data = {}
     for p in raw_paths:
-        json_paths.extend(generate_jsons(p))
+        dict_type = "" 
+        for dt in DICT_TYPES: # Figure out which dict type this is
+            if dt in p.stem:
+                dict_type = dt
+        dict_data[dict_type] = generate_dicts()
+
+    traditional_readings = {}
+    for k,v in dict_data["READINGS"]: # Search for the traditional keyed readings data to splice the jyutping into the CEDICT dicts
+        if "traditional" in k:
+            traditional_readings = v
+
     os.chdir(curr_dir)
     return json_paths
-    
 
-def fetch_raw():
+def stitch_readings(to_stitch, stitch_from):
+    """
+    Stitch in jyutping readings into the provided dict/list of entries from a provided traditional keyed readings dict.
+
+    *Utility function*
+
+    Args:
+        to_stitch (dict | list[dict]): input list/dict to stitch
+        stitch_from (dict): source of jyutping data, keyed via traditional
+    """
+
+    if type(to_stitch) is list:
+        for entry in to_stitch:
+            new_entry = {}
+            for k in entry:
+                new_entry[k] = entry[k]
+                if k == "pinyin":
+                    stitch_jyut = stitch_from[entry["traditional"]]
+                    if stitch_jyut: # This doesn't tehcnically work since sometimes it's a list. It's too much of a pain so I think I'm going to abandon it here, sigh
+                        new_entry["jyutping"] = stitch_jyut
+                    else: # insert call to Pycantonese here
+                        return
+
+def fetch_raw() -> list[Path]:
     """
     Send a GET request to the websites for CC-CEDICT and CC-Canto to download zip files containing the latest raw data, and save it to the current working directory.
+    
+    Returns a list of pathlib.Path objects to the recently saved files.
     """
     raw_paths = []
     for dt in DICT_TYPES:
@@ -75,6 +109,43 @@ def clean_raws(dir = ""):
 
     if curr_dir:
         os.chdir(curr_dir)
+
+def generate_dicts(input_file_path) -> list[dict]:
+    """
+    Generate keyed dicts and their intended file save names from an input raw zip file.
+
+    From the zip file in directory input_file_path, generate dicts keyed to each valid key and return them as a dict keyed with their intended file save name. 
+
+    Args:
+        input_file_path: str path to raw data zip file
+    """
+    
+    # Figure out which type of dict data we're working with
+    dict_type = None
+    for dt in DICT_TYPES:
+        if input_file_path.match("*" + dt.lower() + "*.zip"):
+            dict_type = dt
+        
+    if not dict_type:
+        raise ValueError('Invalid input file path.')
+    
+    # Get a list of items in the zip
+    internals = None
+    with ZipFile(input_file_path) as zip:
+        internals = zip.infolist()
+        zip.extract(internals[0])
+    
+    filename = internals[0].filename
+    output_dict = {}
+    for key in VALID_KEYS[dict_type]:
+        current_time = time.strftime("%Y-%m-%d", time.gmtime())
+        dict_data = parse(filename, dict_type, key)
+        truncated_filename = filename[:filename.rindex(".")]
+        storage_name = truncated_filename + "_key_" + str(key) + "_" + current_time +".json"
+        output_dict[storage_name] = dict_data
+    return output_dict
+
+
 
 def generate_jsons(input_file_path) -> list[Path]:
     """
