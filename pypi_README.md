@@ -11,6 +11,8 @@ The two modules you'll most likely work with are _update.py_ and _CC\_Dict.py_.
 #### Core Class
 
 ```
+from py_cc_dicts.CC_Dict import *
+
 c = CC_Dict("CANTO") # Creates a CC_Dict object that can access the JSONs and dictionary data for CC-Canto. 
 m = CC_Dict("CEDICT") # Creates a CC_Dict object that can access the JSONs and dictionary data for CC-CEDICT.
 # Loads the data from the dictionary website if not already existing into the current directory.
@@ -56,6 +58,8 @@ c3["some string"]
 #### Core Functions
 
 ```
+from py_cc_dicts.update import *
+
 load_latest_data() # Load to current working directory
 load_latest_data("*insert path here*") # Load to provided path
 
@@ -101,6 +105,8 @@ clean_jsons(dir = "")
 #### Constants
 
 ```
+from py_cc_dicts.parser import *
+
 DICT_TYPES = ["CEDICT", "CANTO"] # Valid Dictionary Codes, used throughout the program.
 VALID_KEYS = {DICT_TYPES[0]: ["traditional", "simplified", "pinyin", "definitions", None],
                DICT_TYPES[1]: ["traditional", "simplified", "pinyin", "jyutping", "definitions", None]}  # Valid keys for CC_Dict, used for creation of JSONs
