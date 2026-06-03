@@ -71,6 +71,7 @@ def stitch_readings(to_stitch, stitch_from):
                 if k == "pinyin":
                     stitch_jyut = stitch_from[entry["traditional"]]
                     if stitch_jyut: # This doesn't tehcnically work since sometimes it's a list. It's too much of a pain so I think I'm going to abandon it here, sigh
+                        # Could technically match since if the entry has multiple entries, then that means the readings should ahve them too, in the same order.
                         new_entry["jyutping"] = stitch_jyut
                     else: # insert call to Pycantonese here
                         return
