@@ -75,7 +75,6 @@ def clean_raws(dir = ""):
     if curr_dir:
         os.chdir(curr_dir)
 
-# For each possible key, including none, generate the json for that key and save it to repository directory
 def generate_jsons(input_file_path) -> list[Path]:
     """
     For each CC-CEDICT/CC-Canto raw zip file in directory input_file_path, generate JSONs keyed to each valid key and save it to the current working directory. 
@@ -109,7 +108,7 @@ def generate_jsons(input_file_path) -> list[Path]:
         with open(storage_name, "w") as out_file:
             # ensure_ascii as false makes the Hanzi human readable. Hopefully it doesn't cause any problems elsewhere.
             json.dump(dict_data, out_file, ensure_ascii = False, indent = 4)
-            output_paths.append(Path(storage_name))
+            output_paths.append(Path(storage_name).absolute().resolve())
     return output_paths
 
 def clean_jsons(dir = ""):
@@ -144,7 +143,6 @@ def raws_exists(dir = ""):
             return False
     return True
 
-# Get the data jsons from dir for dictionary type dict_type, if they exist
 def get_jsons(dir = "", dict_type = ""):
     """
     Search dir for the generated JSON files of the input dict_type, or for both types if none provided, and return the paths as a list of strings.
@@ -164,6 +162,9 @@ def get_jsons(dir = "", dict_type = ""):
     else:
         for dt in DICT_TYPES:
             jsons.extend(glob.glob(f"*{dt.lower()}*.json"))
+
+    # Need to do this in order to make sure it's an absolute path to the correct location
+    jsons = list(map(lambda jp : str(Path(jp).absolute().resolve()), jsons))
 
     if curr_dir:
         os.chdir(curr_dir)
@@ -191,6 +192,9 @@ def get_raws(dir = "", dict_type = ""):
             raws.extend(glob.glob(FILE_PREFIXES[dt] + "*" +".zip"))
             raws.extend(glob.glob(INTERNAL_NAME[dt]))
     
+    # Need to do this in order to make sure it's an absolute path to the correct location
+    raws = list(map(lambda rp : str(Path(rp).absolute().resolve()), raws))
+
     if curr_dir:
         os.chdir(curr_dir)
     return raws

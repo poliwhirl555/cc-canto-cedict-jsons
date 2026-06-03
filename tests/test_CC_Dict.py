@@ -253,7 +253,6 @@ def test_data_loading_correct_directory_not_github_path(tmp_path):
     assert raws_exists(pathlib.Path(inspect.getabsfile(load_latest_data)).parent)
     assert jsons_exists(pathlib.Path(inspect.getabsfile(load_latest_data)).parent)
     os.chdir(curr_dir)
-    
 
 def test_data_loading_correct_directory_input_dir(tmp_path):
     d = CC_Dict("CANTO", data_dir = tmp_path)
@@ -271,6 +270,15 @@ def test_data_access_from_different_dir(tmp_path):
     clean_raws(pathlib.Path(inspect.getabsfile(load_latest_data)).parent)
     clean_jsons(pathlib.Path(inspect.getabsfile(load_latest_data)).parent)
 
+def test_json_access_from_different_dir(tmp_path):
+    curr_dir = os.getcwd()
+    os.chdir(tmp_path)
+    d = CC_Dict("CEDICT", key = "traditional")
+    for k in VALID_KEYS[d.type]:
+        assert os.path.isfile(d.jsons[k])
+    clean_raws(pathlib.Path(inspect.getabsfile(load_latest_data)).parent)
+    clean_jsons(pathlib.Path(inspect.getabsfile(load_latest_data)).parent)
+    os.chdir(curr_dir)
     
 
 
