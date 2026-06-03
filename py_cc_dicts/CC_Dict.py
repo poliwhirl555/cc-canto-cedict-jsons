@@ -42,13 +42,13 @@ class CC_Dict(dict):
 
         if data_dir:
             self.data_dir = data_dir
-        elif pathlib.Path.cwd == CC_Dict.data_dir: 
+        elif pathlib.Path.cwd() == CC_Dict.data_dir: 
             # A trick to avoid having to refactor tests and make this work on Github.
             # If the script is called specifically from the place you'd expect data to be for the Github page (one directory above the package),
             # then save data to that directory by default. (This will never happen if installed as a package due to the directory being buried in the Python 3.8 folder)
             self.data_dir = CC_Dict.data_dir
         else: # save data to the same folder as update.py, i.e. the package folder
-            self.data_dir = CC_Dict.load_latest_dir.parent
+            self.data_dir = CC_Dict.load_latest_dir
 
         self.jsons = {}
         if update or not raws_exists(str(self.data_dir)) or not jsons_exists(str(self.data_dir)):

@@ -58,6 +58,12 @@ def fetch_raw():
 
 # Function to delete all raw files, usually used to remove the old ones
 def clean_raws(dir = ""):
+    """
+    Delete all old raw zip and txt/u8 files.
+
+    Args:
+        dir (str): Directory to delete from. Current working directory if none provided.
+    """
     # Does not clean the old .txt and .u8 file, but it doesn't matter as those should be constantly overwritten when unpacking.
     # Might be good to include those just in case though. Maybe in the future
     for f in get_raws(dir):
@@ -101,6 +107,12 @@ def generate_jsons(input_file_path) -> list[Path]:
     return output_paths
 
 def clean_jsons(dir = ""):
+    """
+    Delete all dictionary json files.
+
+    Args:
+        dir (str): Directory to delete from. Current working directory if none provided.
+    """
     for f in get_jsons(dir):
         os.remove(f)
 
@@ -145,7 +157,7 @@ def get_jsons(dir = "", dict_type = ""):
 
 def get_raws(dir = "", dict_type = ""):
     """
-    Search dir for the downloaded raw zip files of the input dict_type, or for both types if none provided, and return the paths as a list of strings.
+    Search dir for the raw zip and data files of the input dict_type, or for both types if none provided, and return the paths as a list of strings.
 
     Args:
         dir (str): str path to directory to search. If none provided, searches current working directory.
@@ -158,10 +170,12 @@ def get_raws(dir = "", dict_type = ""):
 
     raws = []
     if dict_type:
-        raws = glob.glob(FILE_PREFIXES[dict_type] + "*" +".zip")
+        raws.extend(glob.glob(FILE_PREFIXES[dict_type] + "*" +".zip"))
+        raws.extend(glob.glob(INTERNAL_NAME[dict_type]))
     else:
         for dt in DICT_TYPES:
             raws.extend(glob.glob(FILE_PREFIXES[dt] + "*" +".zip"))
+            raws.extend(glob.glob(INTERNAL_NAME[dt]))
     
     if curr_dir:
         os.chdir(curr_dir)
