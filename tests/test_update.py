@@ -55,7 +55,7 @@ def test_jsons_exist():
 def test_raws_exist():
     assert raws_exists()
 
-def test_load_latest_data_diff_dir(tmp_path):
+def test_load_latest_data_diff_dir(tmp_path): # TODO: Modify for splice function
     load_latest_data(tmp_path)
     curr_dir = os.getcwd()
     os.chdir(tmp_path)
