@@ -1,12 +1,6 @@
 This project is provided under the [Creative Commons Attribution-ShareAlike 4.0 International License](https://creativecommons.org/licenses/by-sa/4.0/), as required due to using data from both CC-CEDICT and CC-Canto.
 
-<!-- Complete later with this website https://creativecommons.org/chooser/ -->
-
-<a href="https://example.com">py-cc-dicts</a> © 2026 by <a href="https://github.com/poliwhirl555">Lester Lin</a> is licensed under <a href="https://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International</a><img src="https://mirrors.creativecommons.org/presskit/icons/cc.svg" alt="" style="max-width: 0.1em;max-height:0.1em;margin-left: .02em;"><img src="https://mirrors.creativecommons.org/presskit/icons/by.svg" alt="" style="max-width: 0.1em;max-height:0.1em;margin-left: .02em;"><img src="https://mirrors.creativecommons.org/presskit/icons/sa.svg" alt="" style="max-width: 0.1em;max-height:0.1em;margin-left: .02emem;">
-
-[py-cc-dicts](https://example.com) © 2026 by [Lester Lin](https://github.com/poliwhirl555) is licensed under [Creative Commons Attribution-ShareAlike 4.0 International](https://creativecommons.org/licenses/by-sa/4.0/)<br>
-![](https://mirrors.creativecommons.org/presskit/icons/cc.svg)![](https://mirrors.creativecommons.org/presskit/icons/by.svg)![](https://mirrors.creativecommons.org/presskit/icons/sa.svg)
-
+<a href="https://pypi.org/project/py-cc-dicts/1.0.0/">py-cc-dicts</a> © 2026 by <a href="https://github.com/poliwhirl555">Lester Lin</a> is licensed under <a href="https://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International</a><img src="https://mirrors.creativecommons.org/presskit/icons/cc.svg" alt="" style="max-width: 1em;max-height:1em;margin-left: .2em;"><img src="https://mirrors.creativecommons.org/presskit/icons/by.svg" alt="" style="max-width: 1em;max-height:1em;margin-left: .2em;"><img src="https://mirrors.creativecommons.org/presskit/icons/sa.svg" alt="" style="max-width: 1em;max-height:1em;margin-left: .2em;">
 
 The data for CC-CEDICT is provided under the [Creative Commons Attribution-ShareAlike 4.0 International License](https://creativecommons.org/licenses/by-sa/4.0/), copyright (c) 2026 MDBG, in both unmodified and jsonified formats. The original data can be downloaded from [here](https://www.mdbg.net/chinese/dictionary?page=cedict)
 
@@ -19,7 +13,7 @@ feilipu <br>
 and the editors who wish to remain anonymous <br>
 <br>
 <br>
-The data for CC-CANTO is provided under the [Creative Commons Attribution-ShareAlike 3.0 license](https://creativecommons.org/licenses/by-sa/3.0/), 
+The data for CC-CANTO is provided under the [Creative Commons Attribution-ShareAlike 3.0 License](https://creativecommons.org/licenses/by-sa/3.0/), 
 copyright (c) 2015-16 Pleco Software Incorporated, in both unmodified and jsonified formats. The original data can be found from their website [here](https://cantonese.org/download.html)
 <br>
 <br>

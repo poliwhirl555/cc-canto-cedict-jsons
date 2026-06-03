@@ -11,7 +11,7 @@ Provided as well are the raw zips for the data and the text files, dated to allo
 ### Installation
 
 ```
-insert pip console command here
+pip install py-cc-dicts
 ```
 
 ### Modules
