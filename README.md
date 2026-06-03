@@ -53,7 +53,15 @@ c2 = CC_Dict("CANTO", key = "traditional")
 c2.dict # Produces the dict keyed by traditional
 
 # You can also search with dict syntax.
-c2["貓"] # Produces the entry/entries for 貓
+c2["出發"]
+# Produces:
+{'traditional': '出發', 'simplified': '出发', 'pinyin': 'chu1 fa1', 'jyutping': 'ceot1 faat3', 'definitions': ['to depart']}
+
+c2["貓"]
+# Produces (since there are multiple entries for the same key, they're provided as a list):
+[{'traditional': '貓', 'simplified': '猫', 'pinyin': 'mao1', 'jyutping': 'maau1', 'definitions': ['cat M: 只zhī [只]', '(dialect) to hide oneself', '(coll.) modem', "to arch one's back", 'to be drunk', 'to be high on drugs']}, 
+{'traditional': '貓', 'simplified': '猫', 'pinyin': 'mao1', 'jyutping': 'maau4', 'definitions': ['cat M: 只zhī [只]', '(dialect) to hide oneself', '(coll.) modem', "to arch one's back", 'to be drunk', 'to be high on drugs']}, 
+{'traditional': '貓', 'simplified': '猫', 'pinyin': 'mao1', 'jyutping': 'miu4', 'definitions': ['cat M: 只zhī [只]', '(dialect) to hide oneself', '(coll.) modem', "to arch one's back", 'to be drunk', 'to be high on drugs']}]
 
 c2.keys()
 c2.values()
