@@ -82,9 +82,14 @@ class CC_Dict(dict):
         Returns:
             (dict | list[dict]): dict if key entered is *not* None, otherwise, list (as the entries won't have a key)
         """
+        curr_dir = os.getcwd()
+        os.chdir(self.data_dir)
+
         data = None
         with open(self.jsons[key]) as js:
             data = json.load(js)
+            
+        os.chdir(curr_dir)
         return data
     
     def get_raw_path(self):
