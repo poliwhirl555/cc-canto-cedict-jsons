@@ -64,10 +64,16 @@ def clean_raws(dir = ""):
     Args:
         dir (str): Directory to delete from. Current working directory if none provided.
     """
-    # Does not clean the old .txt and .u8 file, but it doesn't matter as those should be constantly overwritten when unpacking.
-    # Might be good to include those just in case though. Maybe in the future
+    curr_dir = None
+    if dir:
+        curr_dir = os.getcwd()
+        os.chdir(dir)
+
     for f in get_raws(dir):
         os.remove(f)
+
+    if curr_dir:
+        os.chdir(curr_dir)
 
 # For each possible key, including none, generate the json for that key and save it to repository directory
 def generate_jsons(input_file_path) -> list[Path]:
@@ -113,8 +119,16 @@ def clean_jsons(dir = ""):
     Args:
         dir (str): Directory to delete from. Current working directory if none provided.
     """
+    curr_dir = None
+    if dir:
+        curr_dir = os.getcwd()
+        os.chdir(dir)
+
     for f in get_jsons(dir):
         os.remove(f)
+
+    if curr_dir:
+        os.chdir(curr_dir)
 
 def jsons_exists(dir = ""):
     for dt in DICT_TYPES:
