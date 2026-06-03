@@ -8,6 +8,8 @@ Provided as well are the raw zips for the data and the text files, dated to allo
 
 ## The Python Library
 
+https://pypi.org/project/py-cc-dicts/
+
 ### Installation
 
 ```
