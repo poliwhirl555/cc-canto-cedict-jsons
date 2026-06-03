@@ -30,11 +30,11 @@ def test_key_none_multi_map_to_same_hz():
     assert parse("tests/test-input-files/cc-canto/multi map to same hz.txt", "CANTO") == expected
 
 def test_definition_as_key():
-    expected = {"[\'bright\', \'clear\', \'manifest\', \'to show clearly\']": {"traditional": "昭",  "simplified": "昭", "pinyin": "zhao1", "jyutping": "ciu1",
+    expected = {"[\'bright\', \'clear\', \'manifest\', \'to show clearly\']": {"traditional": "昭",  "simplified": "昭", "pinyin": "zhao1", 
                     "definitions": ["bright", "clear", "manifest", "to show clearly"]},
-                "[\'to be (followed by substantives only)\', \'correct; right; true\', \'(respectful acknowledgement of a command) very well\', \'(adverb for emphatic assertion)\']": {"traditional": "是", "simplified": "是", "pinyin": "shi4", "jyutping": "si6",
+                "[\'to be (followed by substantives only)\', \'correct; right; true\', \'(respectful acknowledgement of a command) very well\', \'(adverb for emphatic assertion)\']": {"traditional": "是", "simplified": "是", "pinyin": "shi4",
                     "definitions": ["to be (followed by substantives only)", "correct; right; true", "(respectful acknowledgement of a command) very well", "(adverb for emphatic assertion)"]},
-                "[\'often; frequently\']": {"traditional": "時常",  "simplified": "时常", "pinyin": "shi2chang2", "jyutping": "si4 soeng4",
+                "[\'often; frequently\']": {"traditional": "時常",  "simplified": "时常", "pinyin": "shi2chang2", 
                     "definitions": ["often; frequently"]}}
     assert parse("tests/test-input-files/cc-cedict/mixed v1 v2.txt", "CEDICT", "definitions") == expected
 

@@ -58,7 +58,6 @@ def fetch_raw():
         raw_paths.append(savefile)
     return raw_paths
 
-# Function to delete all raw files, usually used to remove the old ones
 def clean_raws(dir = ""):
     """
     Delete all old raw zip and txt/u8 files.

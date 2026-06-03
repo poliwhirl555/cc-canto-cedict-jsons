@@ -5,6 +5,7 @@ DICT_TYPES = ["CEDICT", "CANTO", "READINGS"]
 VALID_KEYS = {DICT_TYPES[0]: ["traditional", "simplified", "pinyin", "jyutping", "definitions", None],
                 DICT_TYPES[1]: ["traditional", "simplified", "pinyin", "jyutping", "definitions", None],
                 DICT_TYPES[2]: ["traditional", "simplified", "pinyin", None]}
+readings_dict = {}
 
 # Parsing code based on code in Jyut Dictionary
 # https://github.com/aaronhktan/jyut-dict/blob/main/src/dictionaries/cedict/generate-readings.py
@@ -48,14 +49,13 @@ def parse(filepath, dict_type, key = None):
             pinyin = line[line.index("[") + 1 : line.index("]")].lower().replace("v", "u:").replace("[", ""). replace("]", "") # Strip extra [] for V2 CC_CEDICT entries
             if dict_type == DICT_TYPES[1]:
                 jyutping = line[line.index("{") + 1 : line.index("}")].lower()
-            
 
             # Seems like there are python style comments marked by # in the defintions that need handling (see the test input file)
             # This takes care of the comments since it leaves off everything after the last part of the defintion
             # The comments might be useful when trying to merge definitions with the CC-EDICT ones, since the comments say which
             # entries were adapted from CC-EDICT
             definitions = []
-            if not dict_type == DICT_TYPES[2]:
+            if not dict_type == DICT_TYPES[2]: # As the readings file doesn't have definitions
                 definitions = line[line.index("/") + 1 : line.rindex("/")].split("/")
 
             entry = {"traditional": traditional, "simplified": simplified, "pinyin": pinyin}
@@ -108,7 +108,7 @@ def parse_cc_canto(filepath, key = "traditional") -> (list[dict] | dict):
 def parse_cc_cedict(filepath, key = "traditional", surnames = True) -> (list[dict] | dict):
     """
     Parse provided CC-CEDICT dictionary text file into a JSON dict keyed with input key.
-
+    
     Returns either a list of dicts cointaining dictionary entries if key is None, or a dict containing entries of (key, entry dict).
 
     Args:
