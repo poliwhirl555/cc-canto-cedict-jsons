@@ -10,11 +10,14 @@ from py_cc_dicts.parser import DICT_TYPES, VALID_KEYS, parse
 
 
 GET_LINKS = {DICT_TYPES[0]: "https://www.mdbg.net/chinese/export/cedict/cedict_1_0_ts_utf-8_mdbg.zip",
-             DICT_TYPES[1]: "https://cantonese.org/cccanto-170202.zip"}
+             DICT_TYPES[1]: "https://cantonese.org/cccanto-170202.zip",
+             DICT_TYPES[2]: "https://cantonese.org/cccedict-canto-readings-150923.zip"}
 FILE_PREFIXES = {DICT_TYPES[0]: "cedict_1_0_ts_utf-8_mdbg_",
-                 DICT_TYPES[1]: "cccanto-"}
+                 DICT_TYPES[1]: "cccanto-",
+                 DICT_TYPES[2]: "cccedict-canto-readings-"}
 INTERNAL_NAME = {DICT_TYPES[0]: "cedict_ts.u8",
-                 DICT_TYPES[1]: "cccanto-webdist.txt"}
+                 DICT_TYPES[1]: "cccanto-webdist.txt",
+                 DICT_TYPES[2]: "cccedict-canto-readings-150923.txt"}
 
 def load_latest_data(json_end_dir = "") -> list[Path]:
     """
@@ -40,7 +43,6 @@ def load_latest_data(json_end_dir = "") -> list[Path]:
     return json_paths
     
 
-# Fetch the raw zip files from the CC-CEDICT and CC-CANTO website
 def fetch_raw():
     """
     Send a GET request to the websites for CC-CEDICT and CC-Canto to download zip files containing the latest raw data, and save it to the current working directory.
