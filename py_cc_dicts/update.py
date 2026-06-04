@@ -159,10 +159,15 @@ def get_jsons(dir = "", dict_type = ""):
 
     jsons = []
     if dict_type:
-        jsons = glob.glob(f"{FILE_PREFIXES[dict_type]}*.json")
+        # Recreate the creation of the file prefix in generate_jsons, so it doesn't duplicate or catch other files as easily
+        int_name = INTERNAL_NAME[dict_type]
+        file_prefix = int_name[ : int_name.rindex(".")]
+        jsons = glob.glob(f"{file_prefix}*.json")
     else:
         for dt in DICT_TYPES:
-            jsons.extend(glob.glob(f"*{FILE_PREFIXES[dt]}*.json"))
+            int_name = INTERNAL_NAME[dt]
+            file_prefix = int_name[ : int_name.rindex(".")]
+            jsons.extend(glob.glob(f"{file_prefix}*.json"))
 
     # Need to do this in order to make sure it's an absolute path to the correct location
     jsons = list(map(lambda jp : str(Path(jp).absolute().resolve()), jsons))

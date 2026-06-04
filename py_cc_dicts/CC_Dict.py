@@ -39,6 +39,10 @@ class CC_Dict(dict):
             self.type = DICT_TYPES[0]
         elif DICT_TYPES[1].lower() in type.lower():
             self.type = DICT_TYPES[1]
+        elif DICT_TYPES[2].lower() in type.lower():
+            self.type = DICT_TYPES[2]
+        else:
+            raise ValueError(f"Invalid dictionary type entered : {type}")
 
         if data_dir:
             self.data_dir = data_dir
