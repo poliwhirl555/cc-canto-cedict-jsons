@@ -31,7 +31,12 @@ from py_cc_dicts.CC_Dict import *
 
 c = CC_Dict("CANTO") # Creates a CC_Dict object that can access the JSONs and dictionary data for CC-Canto. 
 m = CC_Dict("CEDICT") # Creates a CC_Dict object that can access the JSONs and dictionary data for CC-CEDICT.
+r = CC_Dict("READINGS") # Creates a CC_Dict object that can access the JSONs and readings data for the jyutping readings of CC-CEDICT as provided on the CC-Canto website.
+
 # Loads the data from the dictionary website if not already existing into the current directory.
+
+dicts = [CC_Dict("canto"), CC_Dict("cedict"), CC_Dict("readings")]
+# Not case sensitive, the above works as well.
 ```
 
 ```
@@ -143,4 +148,17 @@ parse_cc_canto(filepath, key = "traditional")
 parse_cc_cedict(filepath, key = "traditional", surnames = True)
 
 # Parse the respective raw text file at *filepath* to produce a JSON with the given *key*. Surnames is currently unused.
+```
+
+## Changelog
+
+### V 1.1
+Can now access the jyupting readings data for CC-CEDICT as provided on the CC-Canto website.
+
+```
+r = CC_Dict("READINGS", key = "traditional")
+r["試驗"]
+
+# Returns:
+{'traditional': '試驗', 'simplified': '试验', 'pinyin': 'shi4 yan4'}
 ```
