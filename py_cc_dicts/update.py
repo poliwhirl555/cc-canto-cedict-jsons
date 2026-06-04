@@ -159,10 +159,10 @@ def get_jsons(dir = "", dict_type = ""):
 
     jsons = []
     if dict_type:
-        jsons = glob.glob(f"*{dict_type.lower()}*.json")
+        jsons = glob.glob(f"{FILE_PREFIXES[dict_type]}*.json")
     else:
         for dt in DICT_TYPES:
-            jsons.extend(glob.glob(f"*{dt.lower()}*.json"))
+            jsons.extend(glob.glob(f"*{FILE_PREFIXES[dt]}*.json"))
 
     # Need to do this in order to make sure it's an absolute path to the correct location
     jsons = list(map(lambda jp : str(Path(jp).absolute().resolve()), jsons))
