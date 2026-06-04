@@ -69,6 +69,3 @@ def test_invalid_key():
     with pytest.raises(ValueError) as exception_info:
         parse_cc_canto("tests/test-input-files/cc-canto/single line def.txt", "something")
     assert str(exception_info.value) == "Invalid key. Property does not exist in CC-CANTO."
-
-# def test_run():
-#     print(parse_cc_canto("test-input-files/cc-canto/multi map to same hz.txt"))

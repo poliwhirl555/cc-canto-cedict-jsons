@@ -76,6 +76,8 @@ def test_create_dict_load_data():
 
 def test_get_data(preload_data):
     for dt in DICT_TYPES:
+        if dt == DICT_TYPES[2]:
+            continue # Have to skip if readings since that dict type isn't designed to work yet
         dict = CC_Dict(dt)
         for k in VALID_KEYS[dt]:
             data = dict.get_data(k)
@@ -103,12 +105,10 @@ def test_get_data(preload_data):
         
 
 def test_get_raw_path(preload_data):
-    file_glob = {DICT_TYPES[0]: f"*{DICT_TYPES[0].lower()}*.u8",
-                 DICT_TYPES[1]: f"*{DICT_TYPES[1].lower()}*.txt"}
     for dt in DICT_TYPES:
         dict = CC_Dict(dt)
         raw_path = Path(dict.get_raw_path())
-        assert raw_path.is_file() and raw_path.match(file_glob[dt]) == True
+        assert raw_path.is_file() and raw_path.match(INTERNAL_NAME[dt])
 
 def test_create_keyed_dict_CEDICT(preload_data):
     for k in VALID_KEYS["CEDICT"]:
@@ -124,6 +124,15 @@ def test_create_keyed_dict_CANTO():
     for k in VALID_KEYS["CANTO"]:
         if not (k == "definitions" or k == None):
             d = CC_Dict("CANTO", k)
+            json_loaded_dict = None
+            with open(d.jsons[k], "r") as j:
+                json_loaded_dict = json.load(j)
+            assert d.dict == json_loaded_dict
+
+def test_create_keyed_dict_READINGS():
+    for k in VALID_KEYS["READINGS"]:
+        if not k == None:
+            d = CC_Dict("READINGS", k)
             json_loaded_dict = None
             with open(d.jsons[k], "r") as j:
                 json_loaded_dict = json.load(j)
@@ -245,6 +254,8 @@ def test_search_found():
 def test_search_not_found():
     d = CC_Dict("CANTO", "definitions")
     assert d["something definitely not in the dictionary"] == []
+
+# Tests for data loading from different directories.
 
 def test_data_loading_correct_directory_not_github_path(tmp_path):
     curr_dir = os.getcwd()

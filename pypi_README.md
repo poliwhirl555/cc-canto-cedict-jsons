@@ -1,6 +1,6 @@
 A Python library to download, update, create and access keyed JSONs for the dictionaries CC-CEDICT and CC-Canto. 
 
-### Modules
+## Modules
 
 The core Python library consists of three files: _parser.py_, which handles parsing the raw text files sourced from the CC-CEDICT and CC-Canto websites and creating the JSONs; _update.py_, which handles fetching the data from those websites and calls functions from parser to generate the JSONS in the right place; and _CC\_Dict.py_, which provides the the class CC_Dict for easier programmatic access of the paths for the JSONs or the data in the JSONs.
 
@@ -15,7 +15,12 @@ from py_cc_dicts.CC_Dict import *
 
 c = CC_Dict("CANTO") # Creates a CC_Dict object that can access the JSONs and dictionary data for CC-Canto. 
 m = CC_Dict("CEDICT") # Creates a CC_Dict object that can access the JSONs and dictionary data for CC-CEDICT.
+r = CC_Dict("READINGS") # Creates a CC_Dict object that can access the JSONs and readings data for the jyutping readings of CC-CEDICT as provided on the CC-Canto website.
+
 # Loads the data from the dictionary website if not already existing into the current directory.
+
+dicts = [CC_Dict("canto"), CC_Dict("cedict"), CC_Dict("readings")]
+# Not case sensitive, the above works as well.
 ```
 
 ```
@@ -37,7 +42,15 @@ c2 = CC_Dict("CANTO", key = "traditional")
 c2.dict # Produces the dict keyed by traditional
 
 # You can also search with dict syntax.
-c2["貓"] # Produces the entry/entries for 貓
+c2["出發"]
+# Produces:
+{'traditional': '出發', 'simplified': '出发', 'pinyin': 'chu1 fa1', 'jyutping': 'ceot1 faat3', 'definitions': ['to depart']}
+
+c2["貓"]
+# Produces (since there are multiple entries for the same key, they're provided as a list):
+[{'traditional': '貓', 'simplified': '猫', 'pinyin': 'mao1', 'jyutping': 'maau1', 'definitions': ['cat M: 只zhī [只]', '(dialect) to hide oneself', '(coll.) modem', "to arch one's back", 'to be drunk', 'to be high on drugs']}, 
+{'traditional': '貓', 'simplified': '猫', 'pinyin': 'mao1', 'jyutping': 'maau4', 'definitions': ['cat M: 只zhī [只]', '(dialect) to hide oneself', '(coll.) modem', "to arch one's back", 'to be drunk', 'to be high on drugs']}, 
+{'traditional': '貓', 'simplified': '猫', 'pinyin': 'mao1', 'jyutping': 'miu4', 'definitions': ['cat M: 只zhī [只]', '(dialect) to hide oneself', '(coll.) modem', "to arch one's back", 'to be drunk', 'to be high on drugs']}]
 
 c2.keys()
 c2.values()
@@ -119,4 +132,17 @@ parse_cc_canto(filepath, key = "traditional")
 parse_cc_cedict(filepath, key = "traditional", surnames = True)
 
 # Parse the respective raw text file at *filepath* to produce a JSON with the given *key*. Surnames is currently unused.
+```
+
+## Changelog
+
+### V 1.1
+Can now access the jyupting readings data for CC-CEDICT as provided on the CC-Canto website.
+
+```
+r = CC_Dict("READINGS", key = "traditional")
+r["試驗"]
+
+# Returns:
+{'traditional': '試驗', 'simplified': '试验', 'pinyin': 'shi4 yan4'}
 ```

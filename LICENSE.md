@@ -13,7 +13,7 @@ feilipu <br>
 and the editors who wish to remain anonymous <br>
 <br>
 <br>
-The data for CC-CANTO is provided under the [Creative Commons Attribution-ShareAlike 3.0 License](https://creativecommons.org/licenses/by-sa/3.0/), 
+The data for CC-CANTO and it's CEDICT Cantonese readings are provided under the [Creative Commons Attribution-ShareAlike 3.0 License](https://creativecommons.org/licenses/by-sa/3.0/), 
 copyright (c) 2015-16 Pleco Software Incorporated, in both unmodified and jsonified formats. The original data can be found from their website [here](https://cantonese.org/download.html)
 <br>
 <br>

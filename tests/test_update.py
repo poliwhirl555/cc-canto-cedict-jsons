@@ -6,7 +6,7 @@ from py_cc_dicts.update import *
 
 def test_fetch_raw():
     raw_paths = fetch_raw()
-    assert len(raw_paths) == 2
+    assert len(raw_paths) == 3
     for f in raw_paths:
         os.remove(f)
 
@@ -37,7 +37,9 @@ def test_load_latest_data():
         # Check that the raws exist
         assert len(glob.glob(FILE_PREFIXES[dt] + "*.zip")) == 1
         # Check that the correct number of jsons are generated and they are readable
-        glob_string = f"*{dt.lower()}*.json"
+        int_name = INTERNAL_NAME[dt]
+        file_prefix = int_name[ : int_name.rindex(".")]
+        glob_string = f"*{file_prefix}*.json"
         json_files = glob.glob(glob_string)
         num_json_files = len(json_files)
         num_keys = len(VALID_KEYS[dt])
@@ -63,7 +65,9 @@ def test_load_latest_data_diff_dir(tmp_path):
         # Check that the raws exist
         assert len(glob.glob(FILE_PREFIXES[dt] + "*.zip")) == 1
         # Check that the correct number of jsons are generated and they are readable
-        glob_string = f"*{dt.lower()}*.json"
+        int_name = INTERNAL_NAME[dt]
+        file_prefix = int_name[ : int_name.rindex(".")]
+        glob_string = f"*{file_prefix}*.json"
         json_files = glob.glob(glob_string)
         num_json_files = len(json_files)
         num_keys = len(VALID_KEYS[dt])
